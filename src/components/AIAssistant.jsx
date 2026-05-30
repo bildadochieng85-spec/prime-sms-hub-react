@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/AIAssistant.css';
 
 // Simple markdown renderer: bold, bullet lists
@@ -12,7 +12,7 @@ function renderMessage(text) {
       elements.push(
         <ul key={`ul-${elements.length}`}>
           {listItems.map((item, i) => (
-            <li key={i} dangerouslySetInnerHTML={{ __html: boldText(item) }} />
+            <li key={i} dangerouslySetInnerColor={{ __html: boldText(item) }} />
           ))}
         </ul>
       );
@@ -54,22 +54,29 @@ export default function AIAssistant() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const messagesRef = useRef(messages);
 
-  const scrollToBottom = () => {
+  // Keep ref updated with current messages
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, scrollToBottom]);
 
-  const handleSendMessage = async (e) => {
+  const handleSendMessage = useCallback(async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
 
+    const currentInput = input.trim();
     const userMessage = {
-      id: messages.length + 1,
-      text: input,
+      id: Date.now() + Math.random(),
+      text: currentInput,
       sender: 'user',
       timestamp: new Date(),
     };
@@ -83,7 +90,8 @@ export default function AIAssistant() {
         ? 'http://localhost:5000'
         : (import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'https://backend-uxkx.onrender.com');
 
-      const conversationHistory = messages
+      // Use ref to get current messages (avoids stale closure)
+      const conversationHistory = messagesRef.current
         .filter((m) => m.sender !== 'system')
         .map((m) => ({
           role: m.sender === 'user' ? 'user' : 'model',
@@ -93,7 +101,7 @@ export default function AIAssistant() {
       const response = await fetch(`${BACKEND_URL}/api/ai-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: input, conversationHistory }),
+        body: JSON.stringify({ message: currentInput, conversationHistory }),
       });
 
       if (!response.ok) throw new Error(`API error: ${response.statusText}`);
@@ -101,9 +109,7 @@ export default function AIAssistant() {
       const data = await response.json();
       const fullText = data.message;
 
-      setIsLoading(false);
-      const aiMessageId = Date.now();
-
+      const aiMessageId = Date.now() + 1;
       setMessages((prev) => [
         ...prev,
         { id: aiMessageId, text: '', sender: 'ai', timestamp: new Date(), isTyping: true },
@@ -118,7 +124,7 @@ export default function AIAssistant() {
           prev.map(msg => msg.id === aiMessageId ? { ...msg, text: currentText } : msg)
         );
         scrollToBottom();
-        await new Promise(resolve => setTimeout(resolve, 25 + Math.random() * 35));
+        await new Promise(resolve => setTimeout(resolve, 15));
       }
 
       setMessages((prev) =>
@@ -130,7 +136,7 @@ export default function AIAssistant() {
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now(),
+          id: Date.now() + 2,
           text: `Sorry, I encountered an error: ${error.message}. Please try again.`,
           sender: 'ai',
           timestamp: new Date(),
@@ -139,9 +145,9 @@ export default function AIAssistant() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [input, isLoading, scrollToBottom]);
 
-  const handleClearChat = () => {
+  const handleClearChat = useCallback(() => {
     setMessages([
       {
         id: 1,
@@ -150,7 +156,8 @@ export default function AIAssistant() {
         timestamp: new Date(),
       },
     ]);
-  };
+    setInput('');
+  }, []);
 
   return (
     <>
@@ -214,7 +221,6 @@ export default function AIAssistant() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
-              autoFocus
             />
             <button
               type="submit"
