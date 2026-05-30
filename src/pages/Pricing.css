@@ -113,3 +113,22 @@
   color: var(--text-secondary);
   font-size: 18px;
 }
+
+@media (max-width: 768px) {
+  .pricing-page-wrapper { padding-top: 80px; }
+  .pricing-page-section { padding: 60px 0 80px; }
+  .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .price-card { padding: 32px 24px; }
+  .price-header h3 { font-size: 20px; }
+  .price-value .amount { font-size: 40px; }
+  .price-value .currency { font-size: 20px; }
+  .service-icon-initial { width: 54px; height: 54px; font-size: 28px; }
+}
+
+@media (max-width: 480px) {
+  .pricing-page-section { padding: 40px 0 60px; }
+  .price-card { padding: 24px 16px; }
+  .price-header h3 { font-size: 18px; }
+  .price-value .amount { font-size: 36px; }
+  .service-icon-initial { width: 48px; height: 48px; font-size: 24px; }
+}

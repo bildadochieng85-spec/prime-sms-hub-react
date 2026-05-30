@@ -318,3 +318,12 @@
     transform: translateY(-8px) rotate(-45deg);
   }
 }
+
+@media (max-width: 480px) {
+  .site-header { padding: 0 16px; }
+  .brand-text strong { font-size: 18px; }
+  .brand-text span { font-size: 10px; }
+  .logo-wrapper { width: 36px; height: 36px; }
+  .nav-menu { padding: 80px 16px; }
+  .nav-links a { font-size: 18px; }
+}

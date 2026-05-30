@@ -301,4 +301,15 @@
   .sms-card-premium {
     padding: 20px;
   }
+  .number-display { font-size: 18px; }
+  .code-display-box { font-size: 22px; letter-spacing: 2px; }
+  .field-label { font-size: 12px; }
+  .sms-tip-box { padding: 20px; }
+  .tip-text { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  .sms-card-premium { padding: 16px; }
+  .number-display { font-size: 16px; }
+  .code-display-box { font-size: 20px; }
 }

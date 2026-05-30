@@ -623,3 +623,51 @@
     flex-direction: column;
   }
 }
+
+/* Responsive Font Scaling */
+@media (max-width: 1200px) {
+  :root {
+    --home-font-xl: clamp(28px, 4vw, 60px);
+    --home-font-lg: clamp(24px, 3.5vw, 48px);
+    --home-font-md: clamp(18px, 2.5vw, 24px);
+    --home-font-sm: clamp(15px, 2vw, 18px);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --home-font-xl: clamp(24px, 5vw, 40px);
+    --home-font-lg: clamp(20px, 4vw, 32px);
+    --home-font-md: clamp(16px, 3vw, 20px);
+    --home-font-sm: clamp(14px, 2.5vw, 16px);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --home-font-xl: clamp(20px, 6vw, 32px);
+    --home-font-lg: clamp(18px, 5vw, 24px);
+    --home-font-md: clamp(15px, 4vw, 18px);
+    --home-font-sm: clamp(13px, 3vw, 14px);
+  }
+}
+
+/* Apply responsive fonts */
+.hero-title { font-size: var(--home-font-xl, clamp(36px, 6vw, 76px)); }
+.section-title, .cta-card h2 { font-size: var(--home-font-lg, clamp(32px, 5vw, 48px)); }
+.feature-card h3 { font-size: var(--home-font-md, 24px); }
+.stat-value { font-size: var(--home-font-lg, 48px); }
+.hero-description { font-size: var(--home-font-sm, 20px); }
+.hero-badge, .hero-actions .btn { font-size: clamp(12px, 2vw, 16px); }
+
+/* Small phone tweaks */
+@media (max-width: 480px) {
+  .hero { padding: 80px 0 40px; min-height: 400px; }
+  .hero-title { font-size: 28px; letter-spacing: -1px; }
+  .hero-description { font-size: 16px; margin-bottom: 30px; }
+  .hero-actions .btn { font-size: 15px; padding: 12px 20px; }
+  .home-wrapper .btn { padding: 14px 24px; font-size: 15px; }
+  .feature-card { padding: 28px 20px; }
+  .feature-card h3 { font-size: 18px; }
+  .stat-value { font-size: 36px; }
+}

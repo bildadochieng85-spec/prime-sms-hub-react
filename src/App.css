@@ -324,3 +324,44 @@ h1, h2, h3, h4, .brand strong {
   from { opacity: 0; transform: translateY(30px) scale(0.95); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* Global Responsive Font Scaling */
+@media (max-width: 1200px) {
+  :root {
+    --app-font-xl: clamp(28px, 4vw, 48px);
+    --app-font-lg: clamp(22px, 3vw, 32px);
+    --app-font-md: clamp(16px, 2.5vw, 20px);
+    --app-font-sm: clamp(14px, 2vw, 16px);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --app-font-xl: clamp(24px, 5vw, 32px);
+    --app-font-lg: clamp(20px, 4vw, 26px);
+    --app-font-md: clamp(15px, 3vw, 18px);
+    --app-font-sm: clamp(13px, 2.5vw, 15px);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --app-font-xl: clamp(20px, 6vw, 24px);
+    --app-font-lg: clamp(18px, 5vw, 22px);
+    --app-font-md: clamp(14px, 4vw, 16px);
+    --app-font-sm: clamp(12px, 3vw, 14px);
+  }
+}
+
+/* Responsive h1-h6 */
+h1 { font-size: var(--app-font-xl, 2.5rem); }
+h2 { font-size: var(--app-font-lg, 1.8rem); }
+h3 { font-size: var(--app-font-md, 1.4rem); }
+h4 { font-size: var(--app-font-sm, 1.1rem); }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.9rem; }
+
+p, li, span:not(.brand-text) { font-size: var(--app-font-sm, 1rem); }
+
+/* Button font adjustments */
+.btn, button { font-size: var(--app-font-sm, 1rem); }

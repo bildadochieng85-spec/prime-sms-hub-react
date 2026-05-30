@@ -496,3 +496,14 @@
 .dark-mode .status-badge-v2.received { background: #064e3b; color: #34d399; }
 .dark-mode .status-badge-v2.timeout { background: #7f1d1d; color: #f87171; }
 .dark-mode .status-badge-v2.canceled { background: #374151; color: #9ca3af; }
+
+@media (max-width: 480px) {
+  .premium-title { font-size: 18px; }
+  .order-id-chip { font-size: 10px; }
+  .number-display-main { font-size: 18px; }
+  .code-text-main { font-size: 20px; letter-spacing: 2px; }
+  .prop-value-v2 { font-size: 14px; }
+  .prop-label-v2 { font-size: 11px; }
+  .premium-action-btn { font-size: 14px; height: 42px; }
+  .header-logo-badge { width: 42px; height: 42px; }
+}

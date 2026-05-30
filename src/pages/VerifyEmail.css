@@ -170,3 +170,11 @@
   bottom: -50px;
   left: -50px;
 }
+
+@media (max-width: 480px) {
+  .verify-email-wrapper { padding: 16px; }
+  .verify-email-card { padding: 28px 20px; }
+  .verify-email-card h2 { font-size: 22px; }
+  .verify-icon-wrapper { width: 60px; height: 60px; font-size: 32px; }
+  .btn-primary, .btn-secondary { font-size: 15px; padding: 12px; }
+}

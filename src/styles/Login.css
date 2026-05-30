@@ -144,3 +144,10 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 480px) {
+  .login { padding: 28px 16px; max-width: 90%; }
+  .login h1 { font-size: 22px; }
+  .input-field input { font-size: 15px; padding: 12px; }
+  .auth-button .btn { font-size: 15px; padding: 12px; }
+}
