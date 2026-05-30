@@ -67,19 +67,42 @@ export default function AIAssistant() {
       }
 
       const data = await response.json();
+      const fullText = data.message;
 
-      const aiMessage = {
-        id: messages.length + 2,
-        text: data.message,
+      // Start typing effect
+      setIsLoading(false);
+      const aiMessageId = Date.now();
+      const newAiMessage = {
+        id: aiMessageId,
+        text: '',
         sender: 'ai',
         timestamp: new Date(),
+        isTyping: true
       };
 
-      setMessages((prev) => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, newAiMessage]);
+
+      const words = fullText.split(' ');
+      let currentText = '';
+      
+      for (let i = 0; i < words.length; i++) {
+        currentText += (i === 0 ? '' : ' ') + words[i];
+        setMessages((prev) => 
+          prev.map(msg => msg.id === aiMessageId ? { ...msg, text: currentText } : msg)
+        );
+        // Delay between words for typing effect
+        await new Promise(resolve => setTimeout(resolve, 30 + Math.random() * 40));
+      }
+
+      // Mark typing as finished
+      setMessages((prev) => 
+        prev.map(msg => msg.id === aiMessageId ? { ...msg, isTyping: false } : msg)
+      );
+
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
-        id: messages.length + 2,
+        id: Date.now(),
         text: `Sorry, I encountered an error: ${error.message}. Please try again.`,
         sender: 'ai',
         timestamp: new Date(),
