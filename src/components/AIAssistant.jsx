@@ -98,7 +98,7 @@ export default function AIAssistant() {
           parts: [{ text: m.text }],
         }));
 
-      const response = await fetch(`${BACKEND_URL}/api/ai-chat`, {
+      const response = await fetch(`${BACKEND_URL}/api/prime-intent-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: currentInput, conversationHistory }),
