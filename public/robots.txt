@@ -1,0 +1,17 @@
+# Allow all search engine bots
+User-agent: *
+Allow: /
+
+# Allow Prerender
+User-agent: Prerender
+Allow: /
+
+# Disallow sensitive paths
+Disallow: /dashboard
+Disallow: /verify-email
+
+# Sitemap location
+Sitemap: https://primesmshub.space/sitemap.xml
+
+# Crawl delay in seconds (optional - helps prevent server overload)
+Crawl-delay: 1
