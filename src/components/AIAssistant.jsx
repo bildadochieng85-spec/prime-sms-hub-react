@@ -90,6 +90,7 @@ export default function AIAssistant() {
         setMessages((prev) => 
           prev.map(msg => msg.id === aiMessageId ? { ...msg, text: currentText } : msg)
         );
+        scrollToBottom();
         // Delay between words for typing effect
         await new Promise(resolve => setTimeout(resolve, 30 + Math.random() * 40));
       }
