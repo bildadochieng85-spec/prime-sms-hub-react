@@ -130,9 +130,9 @@ export default function Signup({ onNavigate }) {
 
       <div className="signup-container">
         <div className="signup-card" style={{ display: 'flex', flexDirection: 'column' }}>
-          <button 
+          <button
             className="dashboard-back-button borderless" 
-            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '20px', alignSelf: 'flex-start' }} 
+            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '12px', alignSelf: 'flex-start' }} 
             onClick={() => onNavigate && onNavigate('home')}
           >
             ← Back to Home
@@ -167,38 +167,40 @@ export default function Signup({ onNavigate }) {
               )}
 
               <form onSubmit={handleSignup} className="signup-form">
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    placeholder="Enter your full name"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className={fieldErrors.fullName ? 'input-error' : ''}
-                  />
-                  {fieldErrors.fullName && (
-                    <span className="field-error">❌ {fieldErrors.fullName}</span>
-                  )}
-                </div>
+                <div className="signup-form-row">
+                  <div className="form-group">
+                    <label>Full Name</label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Enter your full name"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                      disabled={loading}
+                      className={fieldErrors.fullName ? 'input-error' : ''}
+                    />
+                    {fieldErrors.fullName && (
+                      <span className="field-error">❌ {fieldErrors.fullName}</span>
+                    )}
+                  </div>
 
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className={fieldErrors.email ? 'input-error' : ''}
-                  />
-                  {fieldErrors.email && (
-                    <span className="field-error">❌ {fieldErrors.email}</span>
-                  )}
+                  <div className="form-group">
+                    <label>Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Enter your email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      disabled={loading}
+                      className={fieldErrors.email ? 'input-error' : ''}
+                    />
+                    {fieldErrors.email && (
+                      <span className="field-error">❌ {fieldErrors.email}</span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="form-group">
@@ -213,42 +215,44 @@ export default function Signup({ onNavigate }) {
                   />
                 </div>
 
-                <div className="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Create a password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    minLength="6"
-                    className={fieldErrors.password ? 'input-error' : ''}
-                  />
-                  {fieldErrors.password && (
-                    <span className="field-error">❌ {fieldErrors.password}</span>
-                  )}
-                  {!fieldErrors.password && (
-                    <small>Must be at least 6 characters</small>
-                  )}
-                </div>
+                <div className="signup-form-row">
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Create a password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      disabled={loading}
+                      minLength="6"
+                      className={fieldErrors.password ? 'input-error' : ''}
+                    />
+                    {fieldErrors.password && (
+                      <span className="field-error">❌ {fieldErrors.password}</span>
+                    )}
+                    {!fieldErrors.password && (
+                      <small>Must be at least 6 characters</small>
+                    )}
+                  </div>
 
-                <div className="form-group">
-                  <label>Confirm Password</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    disabled={loading}
-                    className={fieldErrors.confirmPassword ? 'input-error' : ''}
-                  />
-                  {fieldErrors.confirmPassword && (
-                    <span className="field-error">❌ {fieldErrors.confirmPassword}</span>
-                  )}
+                  <div className="form-group">
+                    <label>Confirm Password</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm your password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      disabled={loading}
+                      className={fieldErrors.confirmPassword ? 'input-error' : ''}
+                    />
+                    {fieldErrors.confirmPassword && (
+                      <span className="field-error">❌ {fieldErrors.confirmPassword}</span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="form-checkbox">
