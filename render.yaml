@@ -50,10 +50,7 @@ services:
     publishDir: dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: prime-sms-hub-backend
-          property: url
+        value: https://api.primesmshub.space
       - key: VITE_APP_NAME
         value: PrimeSmsHub
       - key: VITE_FIREBASE_API_KEY

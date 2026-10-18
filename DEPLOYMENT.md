@@ -62,12 +62,12 @@ Your Vercel frontend needs to know the backend URL.
 1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
 2. Add:
    ```
-   VITE_BACKEND_URL=https://prime-sms-hub-backend.onrender.com
+   VITE_BACKEND_URL=https://api.primesmshub.space
    ```
 
 Or update your frontend `.env.production`:
 ```bash
-VITE_BACKEND_URL=https://prime-sms-hub-backend.onrender.com
+VITE_BACKEND_URL=https://api.primesmshub.space
 ```
 
 ---
