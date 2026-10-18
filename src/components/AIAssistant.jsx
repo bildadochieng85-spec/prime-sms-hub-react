@@ -1,6 +1,35 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/AIAssistant.css';
 
+function AssistantMark({ className }) {
+  return (
+    <svg
+      className={className}
+      aria-hidden="true"
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M7.25 8.25A3.25 3.25 0 0 1 10.5 5h11A3.25 3.25 0 0 1 24.75 8.25v8.5A3.25 3.25 0 0 1 21.5 20H15l-5.5 4v-4.25a3.25 3.25 0 0 1-2.25-3V8.25Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 12.5h.01M16 12.5h.01M20 12.5h.01"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+      />
+      <path
+        d="m24 22 .65 1.6L26.25 24l-1.6.65L24 26.25l-.65-1.6-1.6-.65 1.6-.4L24 22Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 // Simple markdown renderer: bold, bullet lists
 function renderMessage(text) {
   const lines = text.split('\n');
@@ -166,8 +195,9 @@ export default function AIAssistant() {
         onClick={() => setIsOpen(!isOpen)}
         title="Open AI Assistant"
         aria-label="Open AI Assistant"
+        aria-expanded={isOpen}
       >
-        <span className="ai-icon">🤖</span>
+        <AssistantMark className="ai-icon" />
       </button>
 
       {isOpen && (
@@ -175,7 +205,9 @@ export default function AIAssistant() {
           {/* Header */}
           <div className="ai-assistant-header">
             <div className="ai-header-info">
-              <div className="ai-header-avatar">🤖</div>
+              <div className="ai-header-avatar">
+                <AssistantMark className="ai-brand-mark" />
+              </div>
               <div className="ai-header-text">
                 <h3>Prime SMS Hub</h3>
                 <span>● Online</span>
@@ -194,7 +226,11 @@ export default function AIAssistant() {
                 key={msg.id}
                 className={`ai-message ${msg.sender === 'user' ? 'user-message' : ''}`}
               >
-                {msg.sender === 'ai' && <div className="ai-avatar">🤖</div>}
+                {msg.sender === 'ai' && (
+                  <div className="ai-avatar">
+                    <AssistantMark className="ai-brand-mark" />
+                  </div>
+                )}
                 <div className="message-bubble">
                   {msg.sender === 'ai' ? renderMessage(msg.text) : msg.text}
                 </div>
@@ -203,7 +239,9 @@ export default function AIAssistant() {
 
             {isLoading && (
               <div className="ai-message">
-                <div className="ai-avatar">🤖</div>
+                <div className="ai-avatar">
+                  <AssistantMark className="ai-brand-mark" />
+                </div>
                 <div className="typing-indicator">
                   <span /><span /><span />
                 </div>
