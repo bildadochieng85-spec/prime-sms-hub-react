@@ -332,47 +332,43 @@ export default function Home({ onNavigate, theme, setTheme }) {
         <section className="home-how-it-works home-section">
           <div className="home-shell home-process-layout">
             <div className="home-process-heading">
-              <span className="home-section-kicker">HOW IT WORKS</span>
-              <h2>Three steps.<br />One less thing to worry about.</h2>
-              <p>
-                Skip the complicated setup. Choose what you need, use a virtual number,
-                and check your inbox for the code.
-              </p>
-              <button className="home-button home-process-button" onClick={handleGetStarted}>
-                Get started for free <span aria-hidden="true">→</span>
-              </button>
-              <div className="home-process-assurance">
+              <div className="home-process-copy">
+                <span className="home-section-kicker">HOW IT WORKS</span>
+                <h2>Three simple steps to your code.</h2>
+                <p>
+                  No complicated setup. Choose a service, get a private number, and
+                  check your inbox for the verification code.
+                </p>
+              </div>
+              <div className="home-process-actions">
+                <button
+                  className="home-button home-button-primary home-process-button"
+                  onClick={handleGetStarted}
+                >
+                  Get started for free <span aria-hidden="true">→</span>
+                </button>
+                <div className="home-process-assurance">
                 <span aria-hidden="true">✓</span>
                 No app download required
+                </div>
               </div>
             </div>
-            <div className="home-process-panel">
-              <div className="home-process-panel-header">
-                <div>
-                  <span className="home-inbox-label">YOUR VERIFICATION FLOW</span>
-                  <h3>Simple from start to finish</h3>
-                </div>
-                <span className="home-process-count">3 steps</span>
-              </div>
-              <div className="home-steps">
-                {steps.map((step) => (
-                  <article className="home-step" key={step.number}>
-                    <div className="home-step-rail">
-                      <span className="home-step-icon">
-                        <StepIcon name={step.icon} />
-                      </span>
-                      {step.number !== '03' && <span className="home-step-connector" />}
-                    </div>
-                    <div className="home-step-content">
-                      <span className="home-step-eyebrow">
-                        STEP {step.number} <span aria-hidden="true">·</span> {step.eyebrow}
-                      </span>
-                      <h4>{step.title}</h4>
-                      <p>{step.description}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
+            <div className="home-steps">
+              {steps.map((step) => (
+                <article className="home-step" key={step.number}>
+                  <div className="home-step-top">
+                    <span className="home-step-icon">
+                      <StepIcon name={step.icon} />
+                    </span>
+                    <span className="home-step-number">{step.number}</span>
+                  </div>
+                  <div className="home-step-content">
+                    <span className="home-step-eyebrow">{step.eyebrow}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
