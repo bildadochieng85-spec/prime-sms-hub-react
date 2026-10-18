@@ -359,15 +359,28 @@
   .nav-actions .nav-action-button {
     min-width: 0;
     min-height: 45px;
+    box-sizing: border-box;
+    font-size: 13px !important;
+  }
+
+  .nav-actions .theme-toggle {
+    width: 42px;
+    padding: 0 !important;
+  }
+
+  .nav-actions .nav-action-button {
+    width: 100%;
+    padding: 0 9px !important;
+    line-height: 1.2;
   }
 
   .nav-actions .nav-login,
   .nav-actions .nav-dashboard {
-    padding: 0 10px;
+    gap: 6px;
   }
 
   .nav-actions .nav-signup {
-    padding: 0 12px;
+    padding: 0 9px !important;
   }
 
   .site-header.menu-open .hamburger {
