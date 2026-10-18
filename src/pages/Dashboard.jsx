@@ -1915,6 +1915,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             className={`dashboard-hamburger ${sidebarOpen ? 'active' : ''}`}
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label="Toggle Sidebar"
+            aria-expanded={sidebarOpen}
           >
             <span></span>
             <span></span>
