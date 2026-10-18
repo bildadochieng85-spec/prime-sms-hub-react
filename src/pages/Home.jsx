@@ -375,22 +375,23 @@ export default function Home({ onNavigate, theme, setTheme }) {
 
         <section className="home-stats-section">
           <div className="home-shell">
-            <div className="home-stats-panel">
+            <div className="home-stats-panel" role="group" aria-label="PrimeSmsHub service highlights">
               <div className="home-stats-intro">
                 <span className="home-section-kicker">BUILT TO CONNECT</span>
-                <h2>More reach.<br />Less friction.</h2>
+                <h2>Global reach.<br />A smoother way to verify.</h2>
+                <p>One simple place to find a number and receive your verification code.</p>
               </div>
               <div className="home-stat">
                 <strong>500<span>+</span></strong>
-                <span>countries supported</span>
+                <span>countries<br />supported</span>
               </div>
               <div className="home-stat">
                 <strong>1<span>M+</span></strong>
-                <span>SMS messages delivered</span>
+                <span>SMS messages<br />delivered</span>
               </div>
               <div className="home-stat">
                 <strong>99.9<span>%</span></strong>
-                <span>service uptime</span>
+                <span>service<br />uptime</span>
               </div>
             </div>
           </div>

@@ -918,41 +918,53 @@
 }
 
 .home-stats-section {
-  padding: 70px 0;
+  padding: 56px 0 72px;
   background: var(--bg-primary, #1e1e1e);
 }
 
 .home-stats-panel {
   display: grid;
-  grid-template-columns: 1.15fr repeat(3, 1fr);
+  grid-template-columns: 1.3fr repeat(3, 1fr);
   align-items: center;
-  gap: 22px;
-  padding: 34px 38px;
+  gap: 0;
+  padding: 32px 36px;
   border: 1px solid var(--home-border);
-  border-radius: 15px;
+  border-radius: 20px;
   background:
-    radial-gradient(ellipse at 0% 0%, rgba(32, 199, 183, 0.09), transparent 38%),
+    radial-gradient(ellipse at 0% 0%, rgba(32, 199, 183, 0.12), transparent 46%),
+    linear-gradient(115deg, rgba(32, 199, 183, 0.035), transparent 60%),
     var(--home-surface);
 }
 
 .home-stats-intro h2 {
   margin: 9px 0 0;
   color: var(--text-primary, #e0e0e0);
-  font-size: 24px;
-  letter-spacing: -0.8px;
-  line-height: 1.2;
+  font-size: clamp(22px, 2.4vw, 29px);
+  letter-spacing: -1px;
+  line-height: 1.16;
+}
+
+.home-stats-intro p {
+  max-width: 290px;
+  margin: 12px 0 0;
+  color: var(--text-secondary, #a0a0a0);
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .home-stat {
   display: grid;
   justify-items: center;
-  gap: 5px;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 12px;
+  border-left: 1px solid var(--home-border);
   text-align: center;
 }
 
 .home-stat strong {
   color: var(--text-primary, #e0e0e0);
-  font-size: clamp(27px, 3.3vw, 39px);
+  font-size: clamp(27px, 3.2vw, 39px);
   font-weight: 700;
   letter-spacing: -1.7px;
   line-height: 1.15;
@@ -965,6 +977,7 @@
 .home-stat > span {
   color: var(--text-secondary, #a0a0a0);
   font-size: 10px;
+  line-height: 1.5;
 }
 
 .home-cta-section {
@@ -1194,17 +1207,7 @@
   }
 
   .home-stats-panel {
-    grid-template-columns: repeat(3, 1fr);
-    row-gap: 27px;
-  }
-
-  .home-stats-intro {
-    grid-column: 1 / -1;
-    text-align: center;
-  }
-
-  .home-stats-intro h2 br {
-    display: none;
+    padding: 28px 24px;
   }
 
   .home-cta-card {
@@ -1368,12 +1371,26 @@
   }
 
   .home-stats-section {
-    padding: 48px 0;
+    padding: 40px 0 54px;
   }
 
   .home-stats-panel {
-    gap: 20px 8px;
-    padding: 27px 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 4px;
+    padding: 24px 14px;
+  }
+
+  .home-stats-intro {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .home-stats-intro h2 br {
+    display: none;
+  }
+
+  .home-stats-intro p {
+    margin: 9px auto 0;
   }
 
   .home-stat strong {
@@ -1381,9 +1398,8 @@
   }
 
   .home-stat > span {
-    max-width: 100px;
+    max-width: 95px;
     font-size: 9px;
-    line-height: 1.5;
   }
 
   .home-cta-section {
