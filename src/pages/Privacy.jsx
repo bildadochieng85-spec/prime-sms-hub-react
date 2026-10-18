@@ -4,7 +4,7 @@ import './Legal.css';
 
 export default function Privacy({ onNavigate, theme }) {
   return (
-    <div className={`legal-page-container ${theme || 'dark'}`}>
+    <div className={`legal-page-container terms-page privacy-page ${theme || 'dark'}`}>
       <Helmet>
         <title>Privacy Policy - PrimeSmsHub</title>
         <meta name="description" content="Learn how PrimeSmsHub collects, uses, and protects your personal data. Read our complete privacy policy." />
@@ -17,15 +17,19 @@ export default function Privacy({ onNavigate, theme }) {
         <link rel="alternate" hreflang="x-default" href="https://primesmshub.space/privacy" />
       </Helmet>
 
-      <div className="legal-header">
-        <button className="dashboard-back-button borderless" style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '20px' }} onClick={() => onNavigate('signup')}>
-          ← Back to Sign Up
+      <div className="legal-header terms-header">
+        <button className="terms-back-button" onClick={() => onNavigate('signup')}>
+          <span aria-hidden="true">←</span> Back to Sign Up
         </button>
-        <h1>Privacy Policy</h1>
-        <p className="last-updated">Last Updated: October 2026</p>
+        <div className="terms-heading">
+          <span className="terms-kicker">PRIMESMSHUB · YOUR PRIVACY</span>
+          <h1>Privacy Policy</h1>
+          <p>Learn how we collect, use, and protect your information.</p>
+          <span className="terms-updated">Last updated <strong>October 2026</strong></span>
+        </div>
       </div>
       
-      <div className="legal-content glass-card">
+      <div className="legal-content glass-card terms-content">
         <section>
           <h2>1. Information We Collect</h2>
           <p>We collect information you provide directly to us, such as when you create or modify your account, request customer support, or otherwise communicate with us. This includes your name, email address, and transaction history.</p>
