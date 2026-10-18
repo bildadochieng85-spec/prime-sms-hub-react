@@ -5,7 +5,7 @@ import './Navbar.css';
 
 export default function Navbar({ onNavigate, user = null, theme, setTheme }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 20);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
