@@ -3625,9 +3625,11 @@ p { line-height: 1.6; }
 
 .dashboard-page .dashboard-service-grid .smart-card {
   display: flex;
+  flex-direction: column;
   min-height: 145px;
   align-items: center;
   justify-content: center;
+  gap: 0;
   padding: 19px 14px;
   border-radius: 17px;
 }
@@ -3638,18 +3640,32 @@ p { line-height: 1.6; }
 }
 
 .dashboard-page .smart-service-icon {
+  display: grid;
+  flex: 0 0 42px;
+  place-items: center;
   width: 42px;
   height: 42px;
   margin-bottom: 12px;
   border-radius: 13px;
 }
 
+.dashboard-page .smart-service-icon img {
+  display: block;
+}
+
 .dashboard-page .smart-name {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
   letter-spacing: 0;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .dashboard-page .smart-subtext {
+  min-height: 14px;
   margin-top: 5px;
   font-size: 11px;
 }
