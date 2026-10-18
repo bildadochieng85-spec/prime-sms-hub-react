@@ -20,6 +20,8 @@
 }
 
 .navbar-container {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: minmax(190px, 1fr) auto minmax(260px, 1fr);
   align-items: center;
@@ -194,7 +196,16 @@
   display: none;
 }
 
+.nav-backdrop {
+  display: none;
+}
+
 @media (max-width: 1000px) {
+  .site-header.menu-open {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .site-header {
     padding-right: 24px;
     padding-left: 24px;
@@ -244,55 +255,134 @@
   .nav-menu {
     position: fixed;
     top: 80px;
+    z-index: 1;
     right: 0;
     bottom: 0;
-    left: 0;
+    left: auto;
+    width: min(390px, 100vw);
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 26px;
+    gap: 24px;
     padding: 30px 24px;
-    border-top: 1px solid rgba(148, 163, 184, 0.12);
-    background: rgba(2, 6, 23, 0.985);
+    border-top: 1px solid rgba(112, 226, 213, 0.16);
+    border-left: 1px solid rgba(112, 226, 213, 0.12);
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(32, 199, 183, 0.1), transparent 45%),
+      #08111f;
+    box-shadow: -24px 0 60px rgba(0, 0, 0, 0.32);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-8px);
+    transform: translateX(18px);
     visibility: hidden;
-    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease;
   }
 
   .nav-menu.open {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .nav-backdrop {
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 0;
+    background: rgba(2, 6, 23, 0.68);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease, visibility 200ms ease;
+  }
+
+  .site-header.menu-open .nav-backdrop {
+    opacity: 1;
     visibility: visible;
   }
 
   .nav-links {
     align-items: stretch;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+  }
+
+  .nav-links::before {
+    margin: 0 4px 7px;
+    color: #718096;
+    content: "EXPLORE";
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
   }
 
   .nav-links a {
-    padding: 13px 4px;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-    font-size: 16px;
+    min-height: 49px;
+    display: flex;
+    align-items: center;
+    padding: 0 13px;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.025);
+    color: #dbe7f1;
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 160ms ease, background 160ms ease, border-color 160ms ease, transform 160ms ease;
   }
 
   .nav-links a::after {
     display: none;
   }
 
+  .nav-links a:hover,
+  .nav-links a:focus-visible {
+    border-color: rgba(112, 226, 213, 0.22);
+    background: rgba(32, 199, 183, 0.08);
+    color: #70e2d5;
+    transform: translateX(2px);
+  }
+
   .nav-actions {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    padding-top: 19px;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+  }
+
+  .nav-actions .theme-toggle,
+  .nav-actions .nav-action-button {
+    min-width: 0;
+    min-height: 45px;
+  }
+
+  .nav-actions .nav-login,
+  .nav-actions .nav-dashboard {
+    padding: 0 10px;
+  }
+
+  .nav-actions .nav-signup {
+    padding: 0 12px;
+  }
+
+  .site-header.menu-open .hamburger {
+    border-color: rgba(112, 226, 213, 0.42);
+    background: rgba(32, 199, 183, 0.08);
+  }
+
+  .site-header.menu-open .hamburger span {
+    background: #70e2d5;
   }
 }
 
 @media (max-width: 480px) {
   .site-header {
+    min-height: 76px;
     padding: 13px 16px;
   }
 
@@ -306,12 +396,8 @@
 
   .nav-menu {
     top: 76px;
-    padding: 24px 20px;
-  }
-
-  .nav-actions {
-    display: grid;
-    grid-template-columns: 42px 1fr 1fr;
+    width: min(360px, 100vw);
+    padding: 25px 18px;
   }
 
   .nav-action-button {
