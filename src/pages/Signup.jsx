@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { auth, db } from '../firebasejs/config';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import AuthModeSwitch from '../components/AuthModeSwitch';
 import './Signup.css';
 
 export default function Signup({ onNavigate }) {
@@ -136,6 +137,7 @@ export default function Signup({ onNavigate }) {
           >
             ← Back to Home
           </button>
+          <AuthModeSwitch activeMode="signup" onNavigate={onNavigate} />
           {verificationSent ? (
             <div className="verification-success">
               <div className="success-icon">📧</div>

@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "../firebasejs/config";
 import { doc, updateDoc, serverTimestamp, addDoc, collection, getDoc } from "firebase/firestore";
+import AuthModeSwitch from "../components/AuthModeSwitch";
 import "./Login.css";
 
 export default function Login({ onNavigate }) {
@@ -231,6 +232,7 @@ export default function Login({ onNavigate }) {
           >
             ← Back to Home
           </button>
+          <AuthModeSwitch activeMode="login" onNavigate={onNavigate} />
           <div className="login-header">
             <img src="/hero.png" alt="PrimeSmsHub" className="login-logo" />
             <h1>Welcome Back 👋</h1>

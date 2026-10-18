@@ -1,0 +1,67 @@
+.auth-mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  width: 100%;
+  margin: 0 0 28px;
+  padding: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  background: rgba(4, 13, 24, 0.58);
+}
+
+.auth-mode-switch button {
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 10px !important;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #91a4b6;
+  font-size: 13px !important;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.auth-mode-switch button:hover {
+  color: #e4eef5;
+}
+
+.auth-mode-switch button.active {
+  border-color: rgba(112, 226, 213, 0.18);
+  background: linear-gradient(110deg, rgba(32, 199, 183, 0.17), rgba(32, 199, 183, 0.08));
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
+  color: #70e2d5;
+}
+
+.auth-mode-switch button:focus-visible {
+  outline: 2px solid #70e2d5;
+  outline-offset: 2px;
+}
+
+:root.light-mode .auth-mode-switch {
+  border-color: rgba(20, 45, 65, 0.12);
+  background: rgba(225, 235, 239, 0.66);
+}
+
+:root.light-mode .auth-mode-switch button {
+  color: #61727c;
+}
+
+:root.light-mode .auth-mode-switch button:hover {
+  color: #203944;
+}
+
+:root.light-mode .auth-mode-switch button.active {
+  border-color: rgba(8, 127, 120, 0.16);
+  background: linear-gradient(110deg, rgba(32, 199, 183, 0.16), rgba(32, 199, 183, 0.07));
+  color: #087f78;
+}
+
+@media (max-width: 480px) {
+  .auth-mode-switch {
+    margin-bottom: 23px;
+  }
+}
