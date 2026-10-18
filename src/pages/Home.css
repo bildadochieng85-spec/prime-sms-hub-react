@@ -19,13 +19,14 @@
 
 .home-hero {
   min-height: 720px;
-  padding: 148px 0 106px;
+  padding: 138px 0 96px;
   position: relative;
   isolation: isolate;
   color: #f8fbff;
   background:
-    linear-gradient(105deg, rgba(5, 15, 28, 0.88) 0%, rgba(7, 21, 35, 0.68) 48%, rgba(5, 16, 29, 0.74) 100%),
-    url('/pic.jpg') center / cover no-repeat,
+    linear-gradient(90deg, rgba(4, 14, 27, 0.8) 0%, rgba(4, 17, 31, 0.6) 48%, rgba(5, 16, 29, 0.4) 100%),
+    linear-gradient(0deg, rgba(5, 14, 25, 0.46) 0%, transparent 42%, rgba(4, 14, 27, 0.22) 100%),
+    url('/pic.jpg') center 43% / cover no-repeat,
     #0b1728;
 }
 
@@ -34,12 +35,23 @@
   z-index: -1;
   inset: 0;
   content: '';
-  opacity: 0.18;
+  opacity: 0.11;
   background-image:
     linear-gradient(rgba(179, 207, 226, 0.15) 1px, transparent 1px),
     linear-gradient(90deg, rgba(179, 207, 226, 0.15) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(to bottom, black, transparent 88%);
+  pointer-events: none;
+}
+
+.home-hero::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 77% 38%, rgba(32, 199, 183, 0.18), transparent 34%),
+    linear-gradient(180deg, transparent 68%, rgba(7, 17, 29, 0.42));
+  content: '';
   pointer-events: none;
 }
 
@@ -54,6 +66,7 @@
   max-width: 570px;
   position: relative;
   z-index: 1;
+  text-shadow: 0 2px 22px rgba(2, 9, 18, 0.24);
 }
 
 .home-eyebrow,
@@ -92,17 +105,19 @@
 }
 
 .home-hero h1 {
-  max-width: 610px;
+  max-width: 630px;
   margin: 25px 0 19px;
   color: #f8fbff;
-  font-size: clamp(42px, 5.35vw, 68px);
+  font-size: clamp(44px, 5.25vw, 66px);
   font-weight: 700;
   letter-spacing: -2.8px;
   line-height: 1.08;
+  text-wrap: balance;
 }
 
 .home-hero h1 span {
-  color: #70e2d5;
+  color: #75eadb;
+  text-shadow: 0 0 32px rgba(32, 199, 183, 0.2);
 }
 
 .home-hero-description {
