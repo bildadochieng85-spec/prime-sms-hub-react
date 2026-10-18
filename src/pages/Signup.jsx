@@ -155,7 +155,6 @@ export default function Signup({ onNavigate }) {
           ) : (
             <>
               <div className="signup-header">
-                <img src="/hero.png" alt="PrimeSmsHub" className="signup-logo" />
                 <h2>Create Account</h2>
                 <p>Join PrimeSmsHub today</p>
               </div>
