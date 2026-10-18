@@ -4244,8 +4244,12 @@ p { line-height: 1.6; }
   max-width: 100%;
   border-radius: 13px;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(32, 199, 183, 0.35) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.dashboard-page .orders-status-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .dashboard-page .status-tab-btn {
@@ -4265,8 +4269,12 @@ p { line-height: 1.6; }
   border-radius: 17px;
   background: var(--dash-card);
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(32, 199, 183, 0.4) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.dashboard-page .orders-table-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .dashboard-page .orders-premium-table {
