@@ -32,13 +32,6 @@
   margin-bottom: 12px;
 }
 
-.signup-logo {
-  display: block;
-  height: 32px;
-  margin: 0 auto 4px;
-  filter: drop-shadow(0 0 10px var(--accent-glow));
-}
-
 .signup-header h2 {
   color: var(--text-primary);
   margin-bottom: 2px;
