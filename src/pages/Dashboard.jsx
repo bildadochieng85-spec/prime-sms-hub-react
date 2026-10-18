@@ -1953,6 +1953,18 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           ) : (
             /* ---- Orders List ---- */
             <div className="dashboard-orders-page-v2">
+              <div className="orders-page-heading">
+                <div>
+                  <span className="dashboard-eyebrow">YOUR ACTIVITY</span>
+                  <h1>My Numbers</h1>
+                  <p>Manage your active numbers and review past activations.</p>
+                </div>
+                <div className="orders-count-card">
+                  <span>Total activations</span>
+                  <strong>{activeNumbers.length}</strong>
+                </div>
+              </div>
+
               {/* Header Tabs */}
               <div className="orders-tabs-container">
                 <div
@@ -2018,6 +2030,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                     key={status}
                     className={`status-tab-btn ${ordersStatusFilter === status ? 'active' : ''}`}
                     onClick={() => setOrdersStatusFilter(status)}
+                    type="button"
                   >
                     {status}
                   </button>
