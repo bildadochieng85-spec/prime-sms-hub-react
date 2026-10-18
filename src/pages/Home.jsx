@@ -443,6 +443,10 @@ export default function Home({ onNavigate, theme, setTheme }) {
                 <strong>PrimeSmsHub</strong>
               </a>
               <p>A more private way to stay connected online.</p>
+              <span className="home-footer-brand-note">
+                <span aria-hidden="true" />
+                Private by design. Simple by nature.
+              </span>
             </div>
             <div className="home-footer-links">
               <div>
@@ -461,7 +465,7 @@ export default function Home({ onNavigate, theme, setTheme }) {
           </div>
           <div className="home-footer-bottom">
             <span>© 2026 PrimeSmsHub. All rights reserved.</span>
-            <span>Private by design. Simple by nature.</span>
+            <a href="mailto:support@primesmshub.com">Need help? Contact support <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </footer>
