@@ -4,7 +4,7 @@ import './Legal.css';
 
 export default function Terms({ onNavigate, theme }) {
   return (
-    <div className={`legal-page-container ${theme || 'dark'}`}>
+    <div className={`legal-page-container terms-page ${theme || 'dark'}`}>
       <Helmet>
         <title>Terms of Service - PrimeSmsHub</title>
         <meta name="description" content="Read PrimeSmsHub's Terms of Service and usage policies for SMS verification numbers and virtual phone numbers." />
@@ -17,15 +17,19 @@ export default function Terms({ onNavigate, theme }) {
         <link rel="alternate" hreflang="x-default" href="https://primesmshub.space/terms" />
       </Helmet>
 
-      <div className="legal-header">
-        <button className="dashboard-back-button borderless" style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '20px' }} onClick={() => onNavigate('signup')}>
-          ← Back to Sign Up
+      <div className="legal-header terms-header">
+        <button className="terms-back-button" onClick={() => onNavigate('signup')}>
+          <span aria-hidden="true">←</span> Back to Sign Up
         </button>
-        <h1>Terms of Service</h1>
-        <p className="last-updated">Last Updated: October 2026</p>
+        <div className="terms-heading">
+          <span className="terms-kicker">PRIMESMSHUB · SERVICE GUIDELINES</span>
+          <h1>Terms of Service</h1>
+          <p>Review the terms that apply when using PrimeSmsHub.</p>
+          <span className="terms-updated">Last updated <strong>October 2026</strong></span>
+        </div>
       </div>
       
-      <div className="legal-content glass-card">
+      <div className="legal-content glass-card terms-content">
         <section>
           <h2>1. Acceptance of Terms</h2>
           <p>By accessing and using PrimeSmsHub, you accept and agree to be bound by the terms and provision of this agreement.</p>

@@ -61,10 +61,243 @@
   filter: brightness(1.2);
 }
 
+.terms-page {
+  --terms-accent: #20c7b7;
+  --terms-accent-bright: #70e2d5;
+  --terms-border: rgba(112, 226, 213, 0.16);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 48px 24px 88px;
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(32, 199, 183, 0.12), transparent 38%),
+    #0b1220;
+  color: #e7eef5;
+}
+
+.terms-page::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: linear-gradient(rgba(148, 163, 184, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  content: "";
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+  pointer-events: none;
+}
+
+.terms-header,
+.terms-content {
+  max-width: 860px;
+}
+
+.terms-header {
+  margin-bottom: 30px;
+}
+
+.terms-page .terms-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  margin-bottom: 34px;
+  padding: 0 13px !important;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 9px;
+  background: rgba(15, 23, 42, 0.58);
+  color: #b9c8d5;
+  font-size: 12px !important;
+  font-weight: 600;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.terms-page .terms-back-button:hover {
+  border-color: var(--terms-border);
+  background: rgba(32, 199, 183, 0.08);
+  color: var(--terms-accent-bright);
+}
+
+.terms-page .terms-back-button:focus-visible {
+  outline: 2px solid var(--terms-accent-bright);
+  outline-offset: 3px;
+}
+
+.terms-heading {
+  padding: 0 0 2px;
+}
+
+.terms-kicker {
+  color: var(--terms-accent-bright);
+  font-size: 10px !important;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.terms-page .terms-heading h1 {
+  margin: 10px 0 8px;
+  color: #f4f8fb;
+  font-size: clamp(34px, 5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -1.8px;
+  line-height: 1.1;
+}
+
+.terms-heading > p {
+  margin: 0;
+  color: #9eafbf;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.terms-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 7px 11px;
+  border: 1px solid rgba(112, 226, 213, 0.14);
+  border-radius: 999px;
+  background: rgba(32, 199, 183, 0.06);
+  color: #9eafbf;
+  font-size: 11px !important;
+}
+
+.terms-updated strong {
+  color: #d9e5ec;
+  font-weight: 600;
+}
+
+.terms-page .terms-content {
+  padding: 8px 30px;
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 17px;
+  background: linear-gradient(145deg, rgba(18, 31, 45, 0.96), rgba(12, 21, 33, 0.96));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+}
+
+.terms-page .terms-content section {
+  position: relative;
+  margin: 0;
+  padding: 25px 2px 24px 19px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.11);
+}
+
+.terms-page .terms-content section:last-child {
+  border-bottom: 0;
+}
+
+.terms-page .terms-content section::before {
+  position: absolute;
+  top: 30px;
+  bottom: 29px;
+  left: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, var(--terms-accent), rgba(32, 199, 183, 0.05));
+  content: "";
+}
+
+.terms-page .terms-content h2 {
+  display: block;
+  margin: 0 0 9px;
+  padding: 0;
+  border: 0;
+  color: #eef5f9;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.25px;
+}
+
+.terms-page .terms-content p {
+  max-width: 720px;
+  margin: 0;
+  color: #a8b7c4;
+  font-size: 14px;
+  line-height: 1.8;
+  opacity: 1;
+}
+
+:root.light-mode .terms-page {
+  --terms-accent-bright: #087f78;
+  --terms-border: rgba(8, 127, 120, 0.2);
+  background:
+    radial-gradient(ellipse at 50% 0, rgba(32, 199, 183, 0.12), transparent 40%),
+    #f4f8fa;
+  color: #21313c;
+}
+
+:root.light-mode .terms-page::before {
+  background-image: linear-gradient(rgba(46, 65, 78, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 65, 78, 0.035) 1px, transparent 1px);
+}
+
+:root.light-mode .terms-page .terms-back-button {
+  border-color: rgba(46, 65, 78, 0.16);
+  background: rgba(255, 255, 255, 0.72);
+  color: #526571;
+}
+
+:root.light-mode .terms-page .terms-back-button:hover {
+  color: #087f78;
+}
+
+:root.light-mode .terms-page .terms-heading h1 {
+  color: #152b37;
+}
+
+:root.light-mode .terms-heading > p,
+:root.light-mode .terms-updated {
+  color: #61727c;
+}
+
+:root.light-mode .terms-updated {
+  border-color: rgba(8, 127, 120, 0.15);
+  background: rgba(32, 199, 183, 0.07);
+}
+
+:root.light-mode .terms-updated strong {
+  color: #334a56;
+}
+
+:root.light-mode .terms-page .terms-content {
+  border-color: rgba(46, 65, 78, 0.12);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 251, 0.98));
+  box-shadow: 0 24px 70px rgba(26, 55, 69, 0.08);
+}
+
+:root.light-mode .terms-page .terms-content section {
+  border-bottom-color: rgba(46, 65, 78, 0.1);
+}
+
+:root.light-mode .terms-page .terms-content h2 {
+  color: #1e3541;
+}
+
+:root.light-mode .terms-page .terms-content p {
+  color: #566b77;
+}
+
 @media (max-width: 768px) {
   .legal-page-container { padding: 20px; }
   .legal-header h1 { font-size: 1.8rem; }
   .legal-content { padding: 24px; }
+
+  .terms-page {
+    padding: 32px 20px 60px;
+  }
+
+  .terms-header {
+    margin-bottom: 23px;
+  }
+
+  .terms-page .terms-back-button {
+    margin-bottom: 26px;
+  }
+
+  .terms-page .terms-content {
+    padding: 5px 22px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -72,4 +305,43 @@
   .legal-header h1 { font-size: 1.5rem; }
   .legal-content { padding: 16px; }
   .legal-content h2 { font-size: 1.2rem; }
+
+  .terms-page {
+    padding: 26px 16px 44px;
+  }
+
+  .terms-page .terms-back-button {
+    margin-bottom: 23px;
+  }
+
+  .terms-kicker {
+    font-size: 9px !important;
+    letter-spacing: 1.3px;
+  }
+
+  .terms-page .terms-heading h1 {
+    font-size: clamp(31px, 9vw, 38px);
+  }
+
+  .terms-heading > p {
+    font-size: 14px;
+  }
+
+  .terms-page .terms-content {
+    padding: 3px 17px;
+    border-radius: 14px;
+  }
+
+  .terms-page .terms-content section {
+    padding: 22px 0 21px 15px;
+  }
+
+  .terms-page .terms-content h2 {
+    font-size: 15px;
+  }
+
+  .terms-page .terms-content p {
+    font-size: 13px;
+    line-height: 1.75;
+  }
 }
