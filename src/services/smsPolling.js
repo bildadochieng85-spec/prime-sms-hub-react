@@ -3,7 +3,7 @@
  * Handles polling the backend for incoming SMS from 5SIM
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+import { API_BASE_URL } from '../utils/apiConfig';
 
 /**
  * Extract verification code from SMS text using regex fallback
@@ -42,7 +42,7 @@ export const pollForSMS = async (orderId, authToken) => {
   while (Date.now() - startTime < MAX_POLLING_TIME) {
     try {
       const response = await fetch(
-        `${API_BASE}/api/5sim/poll-sms/${orderId}`,
+        `${API_BASE_URL}/api/5sim/poll-sms/${orderId}`,
         {
           method: 'GET',
           headers: {
@@ -124,7 +124,7 @@ export const pollForSMS = async (orderId, authToken) => {
 export const quickCheckSMS = async (orderId, authToken) => {
   try {
     const response = await fetch(
-      `${API_BASE}/api/5sim/check/${orderId}`,
+      `${API_BASE_URL}/api/5sim/check/${orderId}`,
       {
         method: 'GET',
         headers: {
@@ -167,7 +167,7 @@ export const quickCheckSMS = async (orderId, authToken) => {
 export const reuseNumber = async (product, phoneNumber, authToken) => {
   try {
     const response = await fetch(
-      `${API_BASE}/api/5sim/reuse`,
+      `${API_BASE_URL}/api/5sim/reuse`,
       {
         method: 'POST',
         headers: {
@@ -208,7 +208,7 @@ export const reuseNumber = async (product, phoneNumber, authToken) => {
 export const cancelOrder = async (orderId, authToken) => {
   try {
     console.log(`📡 Requesting cancel for order: ${orderId}`);
-    const response = await fetch(`${API_BASE}/api/5sim/cancel/${orderId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/5sim/cancel/${orderId}`, {
       headers: {
         'Authorization': authToken ? `Bearer ${authToken}` : undefined,
         'Accept': 'application/json'
@@ -242,7 +242,7 @@ export const cancelOrder = async (orderId, authToken) => {
 export const banNumber = async (orderId, authToken) => {
   try {
     console.log(`📡 Requesting ban for order: ${orderId}`);
-    const response = await fetch(`${API_BASE}/api/5sim/ban/${orderId}`, {
+    const response = await fetch(`${API_BASE_URL}/api/5sim/ban/${orderId}`, {
       headers: {
         'Authorization': authToken ? `Bearer ${authToken}` : undefined,
         'Accept': 'application/json'

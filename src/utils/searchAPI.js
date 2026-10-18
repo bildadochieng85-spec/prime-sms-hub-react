@@ -1,12 +1,11 @@
 // Frontend usage examples for the new search endpoints
-
-const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+import { API_BASE_URL } from './apiConfig';
 
 // ==================== SEARCH COUNTRIES ====================
 // Search for countries by name or code
 async function searchCountries(query) {
   try {
-    const url = `${API_URL}/api/5sim/search/countries?q=${encodeURIComponent(query)}`;
+    const url = `${API_BASE_URL}/api/5sim/search/countries?q=${encodeURIComponent(query)}`;
     const response = await fetch(url);
     const data = await response.json();
     console.log('Countries found:', data);
@@ -39,7 +38,7 @@ async function searchServices(filters = {}) {
       ...(filters.sortBy && { sortBy: filters.sortBy })
     });
 
-    const url = `${API_URL}/api/5sim/search/services?${params}`;
+    const url = `${API_BASE_URL}/api/5sim/search/services?${params}`;
     const response = await fetch(url);
     const data = await response.json();
     console.log('Services found:', data);

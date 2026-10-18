@@ -10,17 +10,13 @@ import axios from 'axios';
 import SMSDisplay from '../components/SMSDisplay';
 import OrderStatusDetail from '../components/OrderStatusDetail';
 import { getServiceLogo } from '../utils/serviceLogo';
+import { API_BASE_URL } from '../utils/apiConfig';
 import './Dashboard.css';
 import { useModal } from '../context/ModalContext';
 
 // API Keys from environment variables
 const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
-// When deployed to Vercel, set VITE_BACKEND_URL to your site domain if you want to call an external backend.
-// If VITE_BACKEND_URL is empty, frontend will call relative `/api/*` endpoints (recommended for Vercel serverless functions).
-const BACKEND_URL = import.meta.env.DEV 
-  ? 'http://localhost:5000' 
-  : (import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'https://backend-uxkx.onrender.com');
-console.log('🔍 BACKEND_URL:', BACKEND_URL);
+const BACKEND_URL = API_BASE_URL;
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'PrimeSmsHub';
 
 // Exchange rate (1 KES = 0.0078 USD) - Now dynamic from backend

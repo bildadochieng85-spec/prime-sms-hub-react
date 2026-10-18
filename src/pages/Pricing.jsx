@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '../components/Navbar';
+import { API_BASE_URL } from '../utils/apiConfig';
 import './Pricing.css';
 
 export default function Pricing({ onNavigate, theme, setTheme }) {
@@ -10,8 +11,7 @@ export default function Pricing({ onNavigate, theme, setTheme }) {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
-        const response = await fetch(`${BACKEND_URL}/api/5sim/services?country=england`);
+        const response = await fetch(`${API_BASE_URL}/api/5sim/services?country=england`);
         const data = await response.json();
         
         if (data && data.products) {

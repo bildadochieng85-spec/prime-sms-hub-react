@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/AIAssistant.css';
+import { API_BASE_URL } from '../utils/apiConfig';
 
 function AssistantMark({ className }) {
   return (
@@ -115,10 +116,6 @@ export default function AIAssistant() {
     setIsLoading(true);
 
     try {
-      const BACKEND_URL = import.meta.env.DEV
-        ? 'http://localhost:5000'
-        : (import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || 'https://backend-uxkx.onrender.com');
-
       // Use ref to get current messages (avoids stale closure)
       const conversationHistory = messagesRef.current
         .filter((m) => m.sender !== 'system')
@@ -127,7 +124,7 @@ export default function AIAssistant() {
           parts: [{ text: m.text }],
         }));
 
-      const response = await fetch(`${BACKEND_URL}/api/prime-intent-chat`, {
+      const response = await fetch(`${API_BASE_URL}/api/prime-intent-chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: currentInput, conversationHistory }),
