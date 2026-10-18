@@ -5,8 +5,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import './App.css';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 import VerifyEmail from './pages/VerifyEmail';
 import Terms from './pages/Terms';
@@ -109,9 +108,8 @@ function App() {
 
     switch (currentPage) {
       case 'login':
-        return <Login onNavigate={handleNavigate} theme={theme} setTheme={setTheme} />;
       case 'signup':
-        return <Signup onNavigate={handleNavigate} theme={theme} setTheme={setTheme} />;
+        return <AuthPage initialMode={currentPage} onNavigate={handleNavigate} />;
       case 'verify-email':
         return <VerifyEmail onNavigate={handleNavigate} user={user} theme={theme} setTheme={setTheme} />;
       case 'dashboard':
