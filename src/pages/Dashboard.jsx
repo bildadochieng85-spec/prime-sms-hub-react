@@ -1459,31 +1459,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       .filter(tx => tx.type === 'debit' && tx.status === 'success')
       .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
       
-    const weekDays = [...Array(7)].map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - (6 - i));
-      return d; 
-    });
-    
-    const dailySpendings = weekDays.map(dateObj => {
-      const dateStr = dateObj.toISOString().split('T')[0];
-      const sum = transactions
-        .filter(tx => {
-          if (!tx.createdAt || tx.type !== 'debit' || tx.status !== 'success') return false;
-          let d;
-          if (tx.createdAt.toDate) d = tx.createdAt.toDate();
-          else if (tx.createdAt.seconds) d = new Date(tx.createdAt.seconds * 1000);
-          else d = new Date(tx.createdAt);
-          return d.toISOString().split('T')[0] === dateStr;
-        })
-        .reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
-      return {
-        day: dateObj.toLocaleDateString('en-US', { weekday: 'short' }),
-        spend: sum
-      };
-    });
-    
-    const maxSpend = Math.max(...dailySpendings.map(d => d.spend), 0.1);
     const filteredServices = serviceCatalog.filter(service =>
       service.name.toLowerCase().includes(serviceSearch.toLowerCase())
     );
@@ -1577,27 +1552,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
         )}
       </div>
 
-      <div className="dashboard-analytics-section">
-        <div className="dashboard-info-banner glass dashboard-analytics-card">
-          <div className="info-content">
-            <h3 className="dashboard-analytics-title">Weekly spend activity</h3>
-            <div className="usage-chart-container">
-              {dailySpendings.map((dayData, idx) => {
-                const heightPercentage = Math.max((dayData.spend / maxSpend) * 100, 5);
-                return (
-                  <div className="chart-bar-group" key={idx}>
-                    <div className="chart-bar-wrapper">
-                      <div className="chart-bar-fill" style={{ height: `${heightPercentage}%` }}></div>
-                      <div className="chart-tooltip">${dayData.spend.toFixed(2)}</div>
-                    </div>
-                    <span className="chart-day-label">{dayData.day}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
+      <div className="dashboard-analytics-section dashboard-analytics-section-single">
         <div className="dashboard-info-banner glass dashboard-analytics-card">
           <div className="info-content">
             <h3 className="dashboard-analytics-title">
