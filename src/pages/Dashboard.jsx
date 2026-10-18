@@ -1556,7 +1556,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                     setCurrentPage('service-selection');
                   }}
                 >
-                  <span className="smart-service-icon">{getServiceLogo(service.id, '40px')}</span>
+                  <span className="smart-service-icon">{getServiceLogo(service.id, '52px')}</span>
                   <span className="smart-name">{service.name}</span>
                   <span className="smart-subtext">Choose country <span aria-hidden="true">→</span></span>
                 </div>

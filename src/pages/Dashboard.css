@@ -3642,7 +3642,7 @@ p { line-height: 1.6; }
 .dashboard-page .dashboard-service-grid .smart-card {
   display: flex;
   flex-direction: column;
-  min-height: 166px;
+  min-height: 180px;
   align-items: center;
   justify-content: center;
   gap: 0;
@@ -3657,18 +3657,18 @@ p { line-height: 1.6; }
 
 .dashboard-page .smart-service-icon {
   display: grid;
-  flex: 0 0 60px;
+  flex: 0 0 72px;
   place-items: center;
-  width: 60px;
-  height: 60px;
-  margin-bottom: 13px;
-  border-radius: 17px;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 14px;
+  border-radius: 19px;
 }
 
 .dashboard-page .smart-service-icon img {
   display: block;
-  max-width: 42px;
-  max-height: 42px;
+  max-width: 56px;
+  max-height: 56px;
 }
 
 .dashboard-page .smart-name {
@@ -3879,7 +3879,7 @@ p { line-height: 1.6; }
   }
 
   .dashboard-page .dashboard-service-grid .smart-card {
-    min-height: 150px;
+    min-height: 164px;
     padding: 15px 10px;
   }
 
