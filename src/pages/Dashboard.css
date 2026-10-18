@@ -3577,8 +3577,20 @@ p { line-height: 1.6; }
 }
 
 .dashboard-page .dashboard-welcome-content .user-name {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.04em 0.24em 0.08em;
+  border: 1px solid rgba(32, 199, 183, 0.22);
+  border-radius: 0.32em;
+  background: rgba(32, 199, 183, 0.09);
   color: var(--accent-primary);
-  text-shadow: 0 8px 28px rgba(32, 199, 183, 0.2);
+  font-size: 1em;
+  font-weight: 800;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-shadow: none;
 }
 
 .dashboard-page .dashboard-welcome-content p {
