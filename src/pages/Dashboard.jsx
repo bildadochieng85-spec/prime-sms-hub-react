@@ -55,6 +55,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
   
   // Service selection state
   const [services, setServices] = useState([]);
+  const [serviceCatalog, setServiceCatalog] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [operators, setOperators] = useState([]);
   const [selectedOperator, setSelectedOperator] = useState('');
@@ -373,8 +374,15 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       console.error('⚠️ Firestore setup error (continuing with offline mode):', err);
     }
     
-    // Load static data from backend (countries and services)
-    loadCountries();
+    // Load the service catalog first; country-specific prices load after a service is chosen.
+    loadCountries().catch((loadError) => {
+      setError('Could not load countries. Please refresh and try again.');
+      console.error('Could not load dashboard countries:', loadError);
+    });
+    loadServices('england', true).catch((loadError) => {
+      setError('Could not load services. Please refresh and try again.');
+      console.error('Could not load dashboard services:', loadError);
+    });
     checkTelegramLink(activeUser);
     
     // Cleanup listeners
@@ -661,35 +669,29 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     }
   };
 
-  const openBuyNumbers = async () => {
-    setLoading(true);
+  const handleCountrySelect = async (country) => {
+    setError(null);
+    setSelectedCountry(country.code);
+    setSelectedCountryData(country);
     try {
-      // Ensure countries are loaded (returns list)
-      const list = countries.length > 0 ? countries : await loadCountries();
-      const chosen = list && list.length > 0 ? list[0] : null;
-      if (chosen) {
-        setSelectedCountry(chosen.code);
-        setSelectedCountryData(chosen);
-        await loadServices(chosen.code);
+      const countryServices = await loadServices(country.code);
+      const matchingService = countryServices.find((service) => service.id === selectedService?.id);
+      if (!matchingService) {
+        setSelectedCountry('');
+        setSelectedCountryData(null);
+        showToast(`${selectedService?.name || 'This service'} is unavailable in ${country.name}. Choose another country.`, 'error');
+        return;
       }
-      setCurrentPage('service-selection');
-    } catch (err) {
-      console.warn('Could not open buy numbers:', err);
-      setCurrentPage('service-selection');
-    } finally {
-      setLoading(false);
-      setSidebarOpen(false);
+      setSelectedService(matchingService);
+    } catch (loadError) {
+      setSelectedCountry('');
+      setSelectedCountryData(null);
+      setError(`Could not load services for ${country.name}. Please try another country.`);
+      console.error(`Could not load services for ${country.name}:`, loadError);
     }
   };
 
-  const handleCountrySelect = async (country) => {
-    setSelectedCountry(country.code);
-    setSelectedCountryData(country);
-    setCurrentPage('service-selection');
-    await loadServices(country.code);
-  };
-
-  const loadServices = async (countryCode) => {
+  const loadServices = async (countryCode, isCatalog = false) => {
     setLoading(true);
     console.log('📱 Loading 5sim prices for country:', countryCode, 'Backend:', BACKEND_URL);
     
@@ -740,12 +742,16 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
         
         console.log(`✅ Loaded ${servicesList.length} products, ${operatorsSet.size} operators`);
         setServices(servicesList);
+        if (isCatalog) setServiceCatalog(servicesList);
         setServicePrices(pricesMap);
         setOperators(Array.from(operatorsSet));
+        return servicesList;
       } else {
         console.warn('⚠️ No products in response');
         setServices([]);
+        if (isCatalog) setServiceCatalog([]);
         setOperators(['Any']);
+        return [];
       }
     } catch (error) {
       console.error('❌ Failed to load prices:', {
@@ -1503,38 +1509,43 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
       <div className="dashboard-country-selection">
         <div className="dashboard-section-header">
-          <h2 style={{ margin: 0 }}>🌍 Select a Country</h2>
+          <h2 style={{ margin: 0 }}>Step 1: Choose a Service</h2>
           <div className="dashboard-search-bar">
              <input
                 type="text"
                 className="dashboard-search-input"
-                placeholder="Search countries..."
-                value={countrySearch}
-                onChange={(e) => setCountrySearch(e.target.value)}
+                placeholder="Search services..."
+                value={serviceSearch}
+                onChange={(e) => setServiceSearch(e.target.value)}
               />
               <span className="search-icon">🔍</span>
           </div>
         </div>
 
-        {loading ? (
-          <div className="dashboard-loading">Loading countries...</div>
+        {serviceCatalog.length === 0 ? (
+          <div className="dashboard-loading">Loading services...</div>
         ) : (
           <div className="smart-grid-container">
-            {countries
-              .filter(country =>
-                country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
-                country.code.toLowerCase().includes(countrySearch.toLowerCase())
+            {serviceCatalog
+              .filter(service =>
+                service.name.toLowerCase().includes(serviceSearch.toLowerCase())
               )
-              .slice(0, 12) // Show top 12
-              .map(country => (
+              .slice(0, 24)
+              .map(service => (
                 <div
-                  key={country.code}
-                  className={`smart-card ${selectedCountry === country.code ? 'active' : ''}`}
-                  onClick={() => handleCountrySelect(country)}
+                  key={service.id}
+                  className={`smart-card ${selectedService?.id === service.id ? 'active' : ''}`}
+                  onClick={() => {
+                    setSelectedService(service);
+                    setSelectedCountry('');
+                    setSelectedCountryData(null);
+                    setServiceSearch('');
+                    setCurrentPage('service-selection');
+                  }}
                 >
-                  <span className="smart-icon">{country.image}</span>
-                  <span className="smart-name">{country.name}</span>
-                  <span className="smart-subtext">{country.prefix}</span>
+                  <span className="smart-service-icon">{getServiceLogo(service.id)}</span>
+                  <span className="smart-name">{service.name}</span>
+                  <span className="smart-subtext">Choose country next</span>
                 </div>
               ))}
           </div>
@@ -1629,98 +1640,79 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
   const renderServiceContent = () => (
     <div className="dashboard-service-page">
-      <button className="dashboard-back-button" onClick={() => setCurrentPage('dashboard')}>
-        ← Back to Countries
+      <button className="dashboard-back-button" onClick={() => {
+        setSelectedCountry('');
+        setSelectedCountryData(null);
+        setCurrentPage('dashboard');
+      }}>
+        ← Back to Services
       </button>
       
       <div className="dashboard-selected-country-header">
-        <span className="dashboard-country-flag-large">{selectedCountryData?.image}</span>
-        <h2>{selectedCountryData?.name}</h2>
+        <span className="dashboard-selected-service-logo">{getServiceLogo(selectedService?.id || '')}</span>
+        <div>
+          <span className="dashboard-selection-step">STEP 1 · SERVICE</span>
+          <h2>{selectedService?.name || 'Choose a service'}</h2>
+        </div>
       </div>
 
       <div className="service-selection-container">
         <div className="dashboard-section-header">
-          <h3 style={{ margin: 0 }}>Step 2: Choose a Service</h3>
+          <h3 style={{ margin: 0 }}>Step 2: Choose a Country</h3>
           <div className="dashboard-search-bar">
              <input
                 type="text"
                 className="dashboard-search-input"
-                placeholder="Search services..."
-                value={serviceSearch}
-                onChange={(e) => setServiceSearch(e.target.value)}
+                placeholder="Search countries..."
+                value={countrySearch}
+                onChange={(e) => setCountrySearch(e.target.value)}
               />
               <span className="search-icon">🔍</span>
           </div>
         </div>
 
-        {loading ? (
-          <div className="dashboard-loading">Loading services...</div>
+        {countries.length === 0 ? (
+          <div className="dashboard-loading">Loading countries...</div>
         ) : (
           <div className="smart-grid-container" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
-            {services
-              .filter(service =>
-                (service.name || service).toLowerCase().includes(serviceSearch.toLowerCase())
+            {countries
+              .filter(country =>
+                country.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
+                country.code.toLowerCase().includes(countrySearch.toLowerCase())
               )
               .slice(0, 24)
-              .map((service, idx) => (
+              .map(country => (
                 <div
-                  key={service.id || idx}
-                  className={`smart-card ${selectedService?.id === service.id || selectedService === service ? 'active' : ''}`}
+                  key={country.code}
+                  className={`smart-card ${selectedCountry === country.code ? 'active' : ''} ${loading ? 'is-loading' : ''}`}
+                  aria-disabled={loading}
                   onClick={() => {
-                    setSelectedService(service);
-                    handleBuyNumber(service);
+                    if (!loading) handleCountrySelect(country);
                   }}
-                  style={{ textAlign: 'left', alignItems: 'flex-start', padding: '15px' }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {getServiceLogo(service.id || service.name || service)}
-                      <span style={{ fontSize: '1.2rem', fontWeight: 700 }}>{service.name || service}</span>
-                    </div>
-                    <span style={{ opacity: 0.8, fontSize: '0.9rem' }}>
-                      ${typeof service === 'object' ? service.price.toFixed(2) : (servicePrices[service] || 'N/A')}
-                    </span>
-                  </div>
-                  <small style={{ opacity: 0.7 }}>Instant SMS Activation</small>
+                  <span className="smart-icon">{country.image}</span>
+                  <span className="smart-name">{country.name}</span>
+                  <span className="smart-subtext">{country.prefix}</span>
                 </div>
               ))}
           </div>
         )}
 
-            {selectedService && (
-              <div className="dashboard-purchase-section">
-                <button 
-                  className="dashboard-purchase-btn"
-                  onClick={handleBuyNumber}
-                  disabled={loading}
-                >
-                  {loading ? 'Processing...' : `Buy Number for $${selectedService.price?.toFixed(2) || '1.00'}`}
-                </button>
-              </div>
-            )}
-      </div>
-
-      <div className="dashboard-price-table">
-        <h3>📋 Service Prices</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>SERVICE</th>
-              <th>PRICE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {services.map(service => (
-              <tr key={service.id || service}>
-                <td style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {getServiceLogo(service.id || service.name || service)}
-                  {service.name || service}
-                </td>
-                <td>${typeof service === 'object' ? service.price.toFixed(2) : (servicePrices[service] || 'N/A')}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {selectedCountry && (
+          <div className="dashboard-purchase-section">
+            <div className="dashboard-purchase-summary">
+              <span>{selectedCountryData?.name} · {selectedService?.name}</span>
+              <strong>{loading ? 'Checking price...' : formatPrice(selectedService?.price || 0)}</strong>
+            </div>
+            <button
+              className="dashboard-purchase-btn"
+              onClick={handleBuyNumber}
+              disabled={loading || !selectedService}
+            >
+              {loading ? 'Loading country price…' : `Continue · ${formatPrice(selectedService?.price || 0)}`}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
