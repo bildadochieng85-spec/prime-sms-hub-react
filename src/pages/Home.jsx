@@ -5,29 +5,39 @@ import './Home.css';
 
 const features = [
   {
+    label: 'YOUR PRIVACY',
     icon: 'shield',
     title: 'Privacy by design',
     description:
       'Keep your personal number private with virtual numbers made for online verification.',
   },
   {
+    label: 'GLOBAL ACCESS',
     icon: 'globe',
     title: 'Numbers around the world',
     description:
       'Choose from a broad range of countries and popular services, all in one place.',
   },
   {
+    label: 'RIGHT ON TIME',
     icon: 'bolt',
     title: 'Codes without the wait',
     description:
       'Get your verification messages as soon as they arrive, right in your account.',
   },
   {
+    label: 'NO SURPRISES',
     icon: 'tag',
     title: 'Clear, upfront pricing',
     description:
       'See the price before you start. No hidden fees or surprise charges.',
   },
+];
+
+const reassurancePoints = [
+  'No personal number needed',
+  'Your codes in one inbox',
+  'Know the price upfront',
 ];
 
 const steps = [
@@ -220,22 +230,57 @@ export default function Home({ onNavigate, theme, setTheme }) {
 
         <section id="features" className="home-features home-section">
           <div className="home-shell">
-            <div className="home-section-heading">
-              <span className="home-section-kicker">MADE FOR PEACE OF MIND</span>
-              <h2>Verification, without the hassle.</h2>
-              <p>
-                Everything you need to protect your number and get on with what matters.
-              </p>
+            <div className="home-features-heading-row">
+              <div className="home-section-heading">
+                <span className="home-section-kicker">MADE FOR PEACE OF MIND</span>
+                <h2>Verification, without the hassle.</h2>
+                <p>
+                  A calmer way to sign up online: keep your personal number private,
+                  find a number that works for you, and get your code in one place.
+                </p>
+              </div>
+              <div className="home-features-note">
+                <span className="home-features-note-icon" aria-hidden="true">
+                  <FeatureIcon name="shield" />
+                </span>
+                <span>
+                  <strong>Your number stays yours</strong>
+                  <small>Use a virtual number for verification.</small>
+                </span>
+              </div>
             </div>
             <div className="home-feature-grid">
-              {features.map((feature) => (
+              {features.map((feature, index) => (
                 <article className="home-feature-card" key={feature.title}>
-                  <div className={`home-feature-icon-wrap home-icon-${feature.icon}`}>
-                    <FeatureIcon name={feature.icon} />
+                  <div className="home-feature-card-top">
+                    <span>{feature.label}</span>
+                    <div className={`home-feature-icon-wrap home-icon-${feature.icon}`}>
+                      <FeatureIcon name={feature.icon} />
+                    </div>
                   </div>
                   <h3>{feature.title}</h3>
                   <p>{feature.description}</p>
+                  <span className="home-feature-card-index">0{index + 1}</span>
                 </article>
+              ))}
+            </div>
+            <div className="home-reassurance-bar" aria-label="PrimeSmsHub benefits">
+              <span className="home-reassurance-label">THE ESSENTIALS</span>
+              {reassurancePoints.map((point) => (
+                <span className="home-reassurance-point" key={point}>
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m5 10 3.2 3.2L15 6.5" />
+                  </svg>
+                  {point}
+                </span>
               ))}
             </div>
           </div>
