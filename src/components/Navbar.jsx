@@ -36,7 +36,15 @@ export default function Navbar({ onNavigate, user = null, theme, setTheme }) {
   };
 
   return (
-    <header className={`site-header${isScrolled ? ' scrolled' : ''}`}>
+    <header className={`site-header${isScrolled ? ' scrolled' : ''}${isMenuOpen ? ' menu-open' : ''}`}>
+      {isMenuOpen && (
+        <button
+          className="nav-backdrop"
+          type="button"
+          onClick={() => setIsMenuOpen(false)}
+          aria-label="Close navigation menu"
+        />
+      )}
       <div className="navbar-container">
         <a
           className="brand"
