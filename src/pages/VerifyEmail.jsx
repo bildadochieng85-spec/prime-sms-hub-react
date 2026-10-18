@@ -10,7 +10,11 @@ export default function VerifyEmail({ onNavigate, user }) {
   const [error, setError] = useState(null);
 
   const handleResendEmail = async () => {
-    if (!user) return;
+    if (!auth.currentUser) {
+      setError('Your session has expired. Please log in again to continue.');
+      return;
+    }
+
     setLoading(true);
     setMessage(null);
     setError(null);
@@ -30,7 +34,10 @@ export default function VerifyEmail({ onNavigate, user }) {
   };
 
   const handleCheckVerification = async () => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser) {
+      setError('Your session has expired. Please log in again to continue.');
+      return;
+    }
     
     setLoading(true);
     setMessage(null);
@@ -42,7 +49,7 @@ export default function VerifyEmail({ onNavigate, user }) {
       if (auth.currentUser.emailVerified) {
         setMessage('Email verified! Redirecting...');
         setTimeout(() => {
-          window.location.reload(); // App.jsx will route to dashboard automatically
+          window.location.assign('/dashboard');
         }, 1500);
       } else {
         setError('Email not verified yet. Please click the link in your email.');
@@ -64,21 +71,27 @@ export default function VerifyEmail({ onNavigate, user }) {
     }
   };
 
-  // Auto-check once on mount
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (auth.currentUser) {
-        auth.currentUser.reload().then(() => {
-          if (auth.currentUser.emailVerified) {
-            clearInterval(interval);
-            window.location.reload();
-          }
-        });
-      }
-    }, 5000); // Check every 5 seconds
+    if (!user || user.emailVerified) return undefined;
 
-    return () => clearInterval(interval);
-  }, []);
+    let isMounted = true;
+    const checkVerification = async () => {
+      try {
+        await auth.currentUser?.reload();
+        if (isMounted && auth.currentUser?.emailVerified) {
+          window.location.assign('/dashboard');
+        }
+      } catch (err) {
+        console.error('Automatic verification check failed:', err);
+      }
+    };
+
+    const interval = setInterval(checkVerification, 5000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [user]);
 
   return (
     <div className="verify-email-wrapper">
@@ -90,19 +103,26 @@ export default function VerifyEmail({ onNavigate, user }) {
       <div className="verify-email-container">
         <div className="verify-email-card">
           <div className="verify-icon-wrapper">
-            <span>📧</span>
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <rect x="7" y="11" width="34" height="26" rx="6" />
+              <path d="m9 15 15 12 15-12" />
+              <path d="m9 34 11-10M39 34 28 24" />
+            </svg>
           </div>
           <h2>Verify Your Email</h2>
-          <p>
-            We've sent a verification link to:
-            <span className="user-email">{user?.email}</span>
-          </p>
+          <p className="verify-intro">One quick step left before you can use your account.</p>
+
+          <div className="verify-email-address">
+            <span>Verification link sent to</span>
+            <strong className="user-email">{user?.email || 'your email address'}</strong>
+          </div>
+
           <p className="instruction-text">
-            Please click the link in the email to activate your account. 
-            Once clicked, your dashboard will automatically open.
+            Open the email and select its verification link. We’ll take you to your dashboard
+            once your email is confirmed. If you don’t see it, check your spam folder.
           </p>
 
-          <div className="verify-actions" style={{ flexDirection: 'column', marginTop: '20px' }}>
+          <div className="verify-actions verify-main-actions">
             <button 
               type="button"
               className="btn-primary" 
@@ -117,21 +137,22 @@ export default function VerifyEmail({ onNavigate, user }) {
               onClick={handleResendEmail}
               disabled={loading}
             >
-              Resend Verification Email
+              {loading ? 'Please wait...' : 'Resend verification email'}
             </button>
           </div>
 
-          <div className="verify-actions" style={{ marginTop: '10px' }}>
+          <div className="verify-actions verify-account-actions">
             <button 
               className="btn-logout" 
               onClick={handleLogout}
+              disabled={loading}
             >
-              Logout and use another account
+              Log out and use another account
             </button>
           </div>
 
-          {message && <div className="message success">{message}</div>}
-          {error && <div className="message error">{error}</div>}
+          {message && <div className="message success" role="status" aria-live="polite">{message}</div>}
+          {error && <div className="message error" role="alert">{error}</div>}
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@ export default function Login({ onNavigate }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [resetMessage, setResetMessage] = useState("");
+  const [verificationUser, setVerificationUser] = useState(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ export default function Login({ onNavigate }) {
 
     setError("");
     setResetMessage("");
+    setVerificationUser(null);
 
     const cleanEmail = email.trim();
 
@@ -47,31 +49,7 @@ export default function Login({ onNavigate }) {
 
       // Check if email is verified
       if (!user.emailVerified) {
-        setError(
-          <div className="verification-error">
-            <p>Please verify your email address before logging in.</p>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-              <button 
-                className="resend-link-button" 
-                onClick={() => {
-                  setError(""); // clear error context so component isn't blocked
-                  if (onNavigate) onNavigate('verify-email');
-                }}
-                disabled={loading}
-              >
-                Go to Verification
-              </button>
-              <button 
-                className="resend-link-button" 
-                onClick={() => handleResendVerification(user)}
-                disabled={loading}
-                style={{ background: 'rgba(74, 144, 226, 0.1)', color: '#4A90E2' }}
-              >
-                Resend Email
-              </button>
-            </div>
-          </div>
-        );
+        setVerificationUser(user);
         setLoading(false);
         return;
       }
@@ -237,6 +215,36 @@ export default function Login({ onNavigate }) {
             <h1>Welcome Back 👋</h1>
             <p>Login to your PrimeSmsHub account</p>
           </div>
+
+          {verificationUser && (
+            <section className="verification-notice" aria-live="polite">
+              <div className="verification-notice-icon" aria-hidden="true">!</div>
+              <div className="verification-notice-content">
+                <h2>Verify your email to continue</h2>
+                <p>
+                  Your account is created, but <strong>{verificationUser.email}</strong> still
+                  needs verification.
+                </p>
+                <div className="verification-notice-actions">
+                  <button
+                    type="button"
+                    className="verification-notice-primary"
+                    onClick={() => onNavigate && onNavigate('verify-email')}
+                  >
+                    Open verification page
+                  </button>
+                  <button
+                    type="button"
+                    className="verification-notice-secondary"
+                    onClick={() => handleResendVerification(verificationUser)}
+                    disabled={loading}
+                  >
+                    {loading ? 'Sending...' : 'Resend verification email'}
+                  </button>
+                </div>
+              </div>
+            </section>
+          )}
 
           {error && (
             <div className="error-message">
