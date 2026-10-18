@@ -1,30 +1,29 @@
 /* src/pages/Dashboard.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap');
 
-:root {
-  /* Vibrant Modern Tech Palette - VS Code Inspired */
+.dashboard-page {
   --dash-bg: #1e1e1e;
-  --dash-sidebar: rgba(30, 30, 30, 0.95);
-  --dash-card: rgba(37, 37, 38, 0.8);
-  --dash-card-hover: rgba(45, 45, 48, 0.9);
-  --dash-border: rgba(255, 255, 255, 0.12);
-  --dash-glass: rgba(37, 37, 38, 0.9);
-  --dash-welcome-bg: linear-gradient(135deg, #252526 0%, #1e1e1e 100%);
-  
-  --dash-active-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(249, 115, 22, 0.1));
+  --dash-sidebar: rgba(17, 31, 38, 0.97);
+  --dash-card: rgba(37, 45, 48, 0.82);
+  --dash-card-hover: rgba(44, 56, 58, 0.94);
+  --dash-border: rgba(163, 220, 213, 0.13);
+  --dash-glass: rgba(31, 43, 46, 0.94);
+  --dash-welcome-bg: linear-gradient(125deg, #12333a 0%, #1e292d 58%, #1e1e1e 100%);
+
+  --dash-active-bg: linear-gradient(135deg, rgba(32, 199, 183, 0.2), rgba(11, 169, 152, 0.1));
   --dash-shadow: rgba(0, 0, 0, 0.25);
-  --dash-glow-1: rgba(14, 165, 233, 0.1);
-  --dash-glow-2: rgba(249, 115, 22, 0.06);
-  
-  --accent-primary: #0ea5e9;   /* Vibrant Blue */
-  --accent-secondary: #06b6d4; /* Cyan */
-  --accent-tertiary: #f97316;  /* Vibrant Orange */
-  
+  --dash-glow-1: rgba(32, 199, 183, 0.1);
+  --dash-glow-2: rgba(11, 169, 152, 0.06);
+
+  --accent-primary: #20c7b7;
+  --accent-secondary: #0ba998;
+  --accent-tertiary: #37d6aa;
+
   --grad-main: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  --grad-surface: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(249, 115, 22, 0.08));
+  --grad-surface: linear-gradient(135deg, rgba(32, 199, 183, 0.15), rgba(11, 169, 152, 0.08));
   
-  --glow-blue: rgba(14, 165, 233, 0.3);
-  --glow-orange: rgba(249, 115, 22, 0.2);
+  --glow-blue: rgba(32, 199, 183, 0.3);
+  --glow-orange: rgba(11, 169, 152, 0.2);
   
   --text-main: #e0e0e0;
   --text-dim: rgba(224, 224, 224, 0.7);
@@ -33,31 +32,10 @@
   --transit: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-:root.light-mode {
-  --dash-bg: #f9f9f9;
-  --dash-sidebar: rgba(255, 255, 255, 0.95);
-  --dash-card: rgba(245, 245, 245, 0.9);
-  --dash-card-hover: rgba(239, 239, 239, 0.95);
-  --dash-border: rgba(0, 0, 0, 0.08);
-  --dash-glass: rgba(255, 255, 255, 0.95);
-  --dash-welcome-bg: linear-gradient(135deg, #f5f5f5 0%, #f9f9f9 100%);
-  --dash-active-bg: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(249, 115, 22, 0.06));
-  --dash-shadow: rgba(0, 0, 0, 0.1);
-  --dash-glow-1: rgba(14, 165, 233, 0.05);
-  --dash-glow-2: rgba(249, 115, 22, 0.03);
-  
-  --text-main: #2e3440;
-  --text-dim: #555555;
-  --text-muted: #757575;
-  
-  --glow-blue: rgba(14, 165, 233, 0.15);
-  --glow-orange: rgba(249, 115, 22, 0.1);
-}
-
 .dashboard-page {
   min-height: 100vh;
   background-color: var(--dash-bg);
-  background-image: 
+  background-image:
     radial-gradient(circle at 10% 20%, var(--dash-glow-1) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, var(--dash-glow-2) 0%, transparent 40%);
   display: flex;
@@ -65,6 +43,27 @@
   font-family: 'Inter', sans-serif;
   color: var(--text-main);
   overflow-x: hidden;
+}
+
+:root.light-mode .dashboard-page {
+  --dash-bg: #f9f9f9;
+  --dash-sidebar: rgba(255, 255, 255, 0.95);
+  --dash-card: rgba(255, 255, 255, 0.9);
+  --dash-card-hover: rgba(242, 246, 248, 0.95);
+  --dash-border: rgba(20, 45, 65, 0.1);
+  --dash-glass: rgba(255, 255, 255, 0.95);
+  --dash-welcome-bg: linear-gradient(125deg, #e7f6f4 0%, #f2f6f8 58%, #ffffff 100%);
+  --dash-active-bg: linear-gradient(135deg, rgba(32, 199, 183, 0.13), rgba(11, 169, 152, 0.05));
+  --dash-shadow: rgba(0, 0, 0, 0.1);
+  --dash-glow-1: rgba(32, 199, 183, 0.07);
+  --dash-glow-2: rgba(11, 169, 152, 0.04);
+
+  --text-main: #2e3440;
+  --text-dim: #555555;
+  --text-muted: #757575;
+
+  --glow-blue: rgba(32, 199, 183, 0.18);
+  --glow-orange: rgba(11, 169, 152, 0.1);
 }
 
 .dashboard-sidebar {
@@ -130,7 +129,7 @@
 .dashboard-nav-brand img {
   height: 38px;
   width: auto;
-  filter: drop-shadow(0 0 8px rgba(112, 0, 255, 0.2));
+  filter: drop-shadow(0 0 8px rgba(32, 199, 183, 0.2));
 }
 
 .brand-text {
@@ -368,7 +367,7 @@
   justify-content: center;
   font-size: 40px;
   color: white;
-  box-shadow: 0 10px 25px rgba(112, 0, 255, 0.3);
+  box-shadow: 0 10px 25px rgba(32, 199, 183, 0.24);
 }
 
 .profile-info-header h2 {
@@ -412,8 +411,8 @@
 }
 
 .form-group input:focus {
-  border-color: var(--accent-main);
-  box-shadow: 0 0 0 4px rgba(112, 0, 255, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(32, 199, 183, 0.12);
   outline: none;
 }
 
@@ -442,7 +441,7 @@
 
 .save-profile-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(112, 0, 255, 0.3);
+  box-shadow: 0 10px 20px rgba(32, 199, 183, 0.24);
 }
 
 .save-profile-btn:disabled {
@@ -812,7 +811,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .dashboard-welcome-content .user-name {
   color: var(--accent-secondary);
-  text-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+  text-shadow: 0 0 15px rgba(32, 199, 183, 0.3);
 }
 
 .dashboard-welcome-content p {
@@ -893,7 +892,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 .dashboard-search-input:focus {
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--accent-secondary);
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.15), inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(32, 199, 183, 0.15), inset 0 2px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
@@ -947,14 +946,14 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 .smart-card:hover {
   transform: translateY(-5px) scale(1.01);
   background: var(--dash-card-hover);
-  border-color: rgba(0, 242, 254, 0.4);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25), 0 0 15px rgba(6, 182, 212, 0.25);
+  border-color: rgba(32, 199, 183, 0.4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25), 0 0 15px rgba(11, 169, 152, 0.22);
 }
 
 .smart-card.active {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   border: none;
-  box-shadow: 0 15px 40px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 15px 40px rgba(32, 199, 183, 0.28);
 }
 
 .smart-icon {
@@ -984,8 +983,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 /* Info Banner: Custom Gradient Spotlight */
 .dashboard-info-banner {
-  background: rgba(112, 0, 255, 0.05);
-  border: 1px solid rgba(112, 0, 255, 0.2);
+  background: rgba(32, 199, 183, 0.05);
+  border: 1px solid rgba(32, 199, 183, 0.2);
   border-radius: 30px;
   padding: 40px 50px;
   margin-bottom: 60px;
@@ -1017,7 +1016,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .info-item:hover {
   background: var(--dash-glass);
-  border-color: rgba(112, 0, 255, 0.2);
+  border-color: rgba(32, 199, 183, 0.2);
   transform: translateY(-5px);
 }
 
@@ -1288,8 +1287,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(249, 115, 22, 0.08));
-  border: 1.5px solid rgba(14, 165, 233, 0.3);
+  background: linear-gradient(135deg, rgba(32, 199, 183, 0.15), rgba(11, 169, 152, 0.08));
+  border: 1.5px solid rgba(32, 199, 183, 0.3);
   color: var(--text-dim);
   padding: 12px 22px;
   border-radius: 12px;
@@ -1303,19 +1302,19 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-back-button:hover {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(249, 115, 22, 0.15));
+  background: linear-gradient(135deg, rgba(32, 199, 183, 0.25), rgba(11, 169, 152, 0.15));
   color: var(--text-main);
   border-color: var(--accent-primary);
   transform: translateX(-4px) scale(1.03);
-  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 4px 16px rgba(32, 199, 183, 0.28);
 }
 
 :root.light-mode .dashboard-back-button {
-  border-color: rgba(14, 165, 233, 0.25);
+  border-color: rgba(32, 199, 183, 0.25);
 }
 
 :root.light-mode .dashboard-back-button:hover {
-  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.3);
+  box-shadow: 0 4px 16px rgba(32, 199, 183, 0.2);
 }
 
 /* Error Banner */
@@ -1359,23 +1358,23 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   transition: var(--transit);
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.3px;
-  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+  box-shadow: 0 4px 15px rgba(32, 199, 183, 0.28);
 }
 
 .dashboard-btn:hover,
 .dashboard-btn-primary:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 10px 35px rgba(14, 165, 233, 0.5);
+  box-shadow: 0 10px 35px rgba(32, 199, 183, 0.38);
 }
 
 :root.light-mode .dashboard-btn,
 :root.light-mode .dashboard-btn-primary {
-  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 4px 15px rgba(32, 199, 183, 0.2);
 }
 
 :root.light-mode .dashboard-btn:hover,
 :root.light-mode .dashboard-btn-primary:hover {
-  box-shadow: 0 10px 35px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 10px 35px rgba(32, 199, 183, 0.3);
 }
 
 .dashboard-btn-secondary {
@@ -1383,8 +1382,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   align-items: center;
   gap: 10px;
   padding: 14px 28px;
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(249, 115, 22, 0.08));
-  border: 1.5px solid rgba(14, 165, 233, 0.35);
+  background: linear-gradient(135deg, rgba(32, 199, 183, 0.15), rgba(11, 169, 152, 0.08));
+  border: 1.5px solid rgba(32, 199, 183, 0.35);
   color: var(--text-dim);
   border-radius: 12px;
   font-size: 15px;
@@ -1396,19 +1395,19 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-btn-secondary:hover {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(249, 115, 22, 0.15));
+  background: linear-gradient(135deg, rgba(32, 199, 183, 0.25), rgba(11, 169, 152, 0.15));
   color: var(--text-main);
   border-color: var(--accent-primary);
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.35);
+  box-shadow: 0 6px 20px rgba(32, 199, 183, 0.25);
 }
 
 :root.light-mode .dashboard-btn-secondary {
-  border-color: rgba(14, 165, 233, 0.25);
+  border-color: rgba(32, 199, 183, 0.25);
 }
 
 :root.light-mode .dashboard-btn-secondary:hover {
-  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 6px 20px rgba(32, 199, 183, 0.18);
 }
 
 /* ============================================
@@ -1445,8 +1444,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   flex-direction: column;
   align-items: flex-end;
   padding: 16px 28px;
-  background: rgba(0, 242, 254, 0.06);
-  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: rgba(32, 199, 183, 0.06);
+  border: 1px solid rgba(32, 199, 183, 0.2);
   border-radius: 20px;
   gap: 4px;
   white-space: nowrap;
@@ -1532,8 +1531,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .fund-input:focus {
   border-color: var(--accent-primary);
-  background: rgba(112, 0, 255, 0.05);
-  box-shadow: 0 0 0 3px rgba(112, 0, 255, 0.12);
+  background: rgba(32, 199, 183, 0.05);
+  box-shadow: 0 0 0 3px rgba(32, 199, 183, 0.12);
 }
 
 .fund-input:disabled {
@@ -1565,8 +1564,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0, 242, 254, 0.05);
-  border: 1px solid rgba(0, 242, 254, 0.15);
+  background: rgba(32, 199, 183, 0.05);
+  border: 1px solid rgba(32, 199, 183, 0.15);
   border-radius: 14px;
   padding: 16px 20px;
   margin-bottom: 20px;
@@ -1586,7 +1585,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 .fund-pay-btn {
   width: 100%;
   padding: 18px;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #9d00ff 50%, var(--accent-tertiary) 100%);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
   background-size: 200% auto;
   border: none;
   color: #fff;
@@ -1607,7 +1606,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 .fund-pay-btn:hover:not(:disabled) {
   background-position: right center;
   transform: translateY(-3px);
-  box-shadow: 0 20px 50px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 20px 50px rgba(32, 199, 183, 0.28);
 }
 
 .fund-pay-btn:disabled {
@@ -1644,8 +1643,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 /* ---- Info Panel ---- */
 .fund-info-panel {
-  background: linear-gradient(160deg, rgba(112, 0, 255, 0.08) 0%, rgba(0, 242, 254, 0.04) 100%);
-  border: 1px solid rgba(112, 0, 255, 0.2);
+  background: linear-gradient(160deg, rgba(32, 199, 183, 0.08), rgba(11, 169, 152, 0.04));
+  border: 1px solid rgba(32, 199, 183, 0.2);
   border-radius: 28px;
   padding: 36px;
   position: sticky;
@@ -1765,7 +1764,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .dashboard-order-card:hover {
   background: var(--dash-card-hover);
-  border-color: rgba(0, 242, 254, 0.3);
+  border-color: rgba(32, 199, 183, 0.3);
   transform: translateY(-3px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
@@ -1813,8 +1812,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   width: 100%;
   margin-top: 20px;
   padding: 12px;
-  background: rgba(0, 242, 254, 0.08);
-  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: rgba(32, 199, 183, 0.08);
+  border: 1px solid rgba(32, 199, 183, 0.2);
   color: var(--accent-secondary);
   border-radius: 12px;
   font-size: 14px;
@@ -1825,7 +1824,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-check-sms-btn:hover:not(:disabled) {
-  background: rgba(0, 242, 254, 0.15);
+  background: rgba(32, 199, 183, 0.15);
   box-shadow: 0 5px 20px rgba(6, 182, 212, 0.4);
 }
 
@@ -1934,8 +1933,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .tx-chip-balance {
-  background: rgba(112, 0, 255, 0.06);
-  border-color: rgba(112, 0, 255, 0.2);
+  background: rgba(32, 199, 183, 0.06);
+  border-color: rgba(32, 199, 183, 0.2);
 }
 .tx-chip-balance strong { color: var(--accent-secondary); }
 
@@ -2075,7 +2074,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-price-table thead {
-  background: rgba(112, 0, 255, 0.1);
+  background: rgba(32, 199, 183, 0.1);
 }
 
 .dashboard-price-table th {
@@ -2176,7 +2175,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .dashboard-purchase-btn:hover:not(:disabled) {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 20px 50px rgba(32, 199, 183, 0.28);
 }
 
 .dashboard-purchase-btn:disabled {
@@ -2283,7 +2282,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .support-channel-docs:hover {
-  border-color: rgba(112, 0, 255, 0.3);
+  border-color: rgba(32, 199, 183, 0.3);
 }
 
 .support-channel-icon {
@@ -2329,7 +2328,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   align-items: center;
-  background: linear-gradient(135deg, rgba(0, 136, 204, 0.06) 0%, rgba(112, 0, 255, 0.06) 100%);
+  background: linear-gradient(135deg, rgba(32, 199, 183, 0.06), rgba(11, 169, 152, 0.06));
   border: 1px solid rgba(0, 136, 204, 0.15);
   border-radius: 28px;
   padding: 40px;
@@ -2454,8 +2453,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .faq-item[open] {
-  border-color: rgba(112, 0, 255, 0.3);
-  background: rgba(112, 0, 255, 0.04);
+  border-color: rgba(32, 199, 183, 0.3);
+  background: rgba(32, 199, 183, 0.04);
 }
 
 .faq-question {
@@ -2607,7 +2606,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .dashboard-modal-content {
   background: #0d0025;
-  border: 1px solid rgba(112, 0, 255, 0.3);
+  border: 1px solid rgba(32, 199, 183, 0.3);
   border-radius: 28px;
   padding: 50px;
   max-width: 460px;
@@ -2629,8 +2628,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-code-display {
-  background: rgba(0, 242, 254, 0.08);
-  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: rgba(32, 199, 183, 0.08);
+  border: 1px solid rgba(32, 199, 183, 0.2);
   border-radius: 14px;
   padding: 20px;
   text-align: center;
@@ -2700,7 +2699,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   width: 100%;
   padding: 60px 40px;
   text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 254, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(32, 199, 183, 0.1);
   animation: maintenancePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
@@ -2713,7 +2712,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at center, rgba(0, 242, 254, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(32, 199, 183, 0.05) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -2722,7 +2721,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   margin-bottom: 30px;
   display: inline-block;
   animation: maintenancePulse 2s infinite ease-in-out;
-  filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3));
+  filter: drop-shadow(0 0 15px rgba(32, 199, 183, 0.3));
 }
 
 .maintenance-content h1 {
@@ -2764,8 +2763,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 @keyframes maintenancePulse {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.3)); }
-  50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.6)); }
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(32, 199, 183, 0.3)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(32, 199, 183, 0.6)); }
 }
 
 /* Toast Notifications - Premium Glassmorphism */
@@ -2937,7 +2936,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .dashboard-sms-polling-container .spinner {
-  border-color: rgba(14, 165, 233, 0.1);
+  border-color: rgba(32, 199, 183, 0.1);
   border-top-color: var(--accent-primary);
 }
 
@@ -2987,8 +2986,8 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .orders-tip-banner {
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.2);
+  background: rgba(32, 199, 183, 0.08);
+  border: 1px solid rgba(32, 199, 183, 0.2);
   border-radius: 16px;
   padding: 20px 25px;
   display: flex;
@@ -3041,7 +3040,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 
 .orders-search-box input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 0 15px rgba(32, 199, 183, 0.2);
 }
 
 .orders-search-box .search-icon {
@@ -3136,7 +3135,7 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
 }
 
 .status-tab-btn:hover {
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(32, 199, 183, 0.05);
 }
 
 .status-tab-btn.active {
