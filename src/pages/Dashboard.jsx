@@ -1501,8 +1501,14 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           role="button"
           tabIndex={0}
           onClick={() => { setCurrentPage('fund-wallet'); setSidebarOpen(false); }}
-          onKeyDown={(e) => { if (e.key === 'Enter') { setCurrentPage('fund-wallet'); setSidebarOpen(false); } }}
-          style={{ cursor: 'pointer' }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              setCurrentPage('fund-wallet');
+              setSidebarOpen(false);
+            }
+          }}
+          aria-label={`Available funds ${formatBalance(userData.wallet || 0)}. Open wallet funding`}
         >
           <div className="dashboard-wallet-balance">
             <span className="label">Available Funds</span>
