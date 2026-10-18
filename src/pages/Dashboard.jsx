@@ -1923,7 +1923,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           </button>
           
           <div className="dashboard-nav-brand" onClick={() => handleNavigation('dashboard')}>
-             <img src="/hero.png" alt="PrimeSmsHub" />
              <strong className="brand-text">PrimeSmsHub</strong>
           </div>
         </div>

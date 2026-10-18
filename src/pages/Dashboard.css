@@ -3964,7 +3964,7 @@ p { line-height: 1.6; }
 
 .dashboard-page .dashboard-nav-brand {
   min-width: 0;
-  gap: 11px;
+  gap: 0;
 }
 
 .dashboard-page .dashboard-nav-brand img {
@@ -4015,7 +4015,7 @@ p { line-height: 1.6; }
   }
 
   .dashboard-page .dashboard-nav-brand {
-    gap: 8px;
+    gap: 0;
   }
 
   .dashboard-page .dashboard-nav-brand img {
