@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <!-- Home Page -->
+  <url>
+    <loc>https://primesmshub.space</loc>
+    <lastmod>2026-04-08T19:27:32.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- Registration Page -->
+  <url>
+    <loc>https://primesmshub.space/signup</loc>
+    <lastmod>2026-04-07T07:29:32.009Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <!-- Login Page -->
+  <url>
+    <loc>https://primesmshub.space/login</loc>
+    <lastmod>2026-04-07T07:29:32.009Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://primesmshub.space/terms</loc>
+    <lastmod>2026-04-07T07:29:32.009Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://primesmshub.space/privacy</loc>
+    <lastmod>2026-04-07T07:29:32.009Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
