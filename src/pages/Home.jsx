@@ -464,8 +464,8 @@ export default function Home({ onNavigate, theme, setTheme }) {
             </div>
           </div>
           <div className="home-footer-bottom">
-            <span>© 2026 PrimeSmsHub. All rights reserved.</span>
             <a href="mailto:support@primesmshub.com">Need help? Contact support <span aria-hidden="true">→</span></a>
+            <span>© 2026 PrimeSmsHub. All rights reserved.</span>
           </div>
         </div>
       </footer>
