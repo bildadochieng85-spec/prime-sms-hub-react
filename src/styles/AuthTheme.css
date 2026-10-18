@@ -1,0 +1,13 @@
+.login-wrapper,
+.signup-wrapper,
+.verify-email-wrapper {
+  --accent-primary: #29cbb9;
+  --accent-secondary: #20c7b7;
+  --accent-glow: rgba(32, 199, 183, 0.3);
+}
+
+:root.light-mode .login-wrapper,
+:root.light-mode .signup-wrapper,
+:root.light-mode .verify-email-wrapper {
+  --accent-glow: rgba(11, 169, 152, 0.18);
+}

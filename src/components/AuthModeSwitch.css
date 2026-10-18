@@ -30,14 +30,14 @@
 }
 
 .auth-mode-switch button.active {
-  border-color: rgba(112, 226, 213, 0.18);
+  border-color: rgba(32, 199, 183, 0.24);
   background: linear-gradient(110deg, rgba(32, 199, 183, 0.17), rgba(32, 199, 183, 0.08));
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
-  color: #70e2d5;
+  color: #75eadb;
 }
 
 .auth-mode-switch button:focus-visible {
-  outline: 2px solid #70e2d5;
+  outline: 2px solid #20c7b7;
   outline-offset: 2px;
 }
 
@@ -55,9 +55,9 @@
 }
 
 :root.light-mode .auth-mode-switch button.active {
-  border-color: rgba(8, 127, 120, 0.16);
+  border-color: rgba(11, 169, 152, 0.2);
   background: linear-gradient(110deg, rgba(32, 199, 183, 0.16), rgba(32, 199, 183, 0.07));
-  color: #087f78;
+  color: #0ba998;
 }
 
 @media (max-width: 480px) {

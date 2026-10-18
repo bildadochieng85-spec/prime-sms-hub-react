@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../firebasejs/config';
 import { sendEmailVerification, signOut } from 'firebase/auth';
+import '../styles/AuthTheme.css';
 import './VerifyEmail.css';
 
 export default function VerifyEmail({ onNavigate, user }) {

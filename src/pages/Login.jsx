@@ -10,6 +10,7 @@ import {
 import { auth, db } from "../firebasejs/config";
 import { doc, updateDoc, serverTimestamp, addDoc, collection, getDoc } from "firebase/firestore";
 import AuthModeSwitch from "../components/AuthModeSwitch";
+import "../styles/AuthTheme.css";
 import "./Login.css";
 
 export default function Login({ onNavigate }) {
