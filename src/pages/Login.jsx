@@ -225,16 +225,15 @@ export default function Login({ onNavigate }) {
 
       <div className="login-container">
         <div className="login-card" style={{ display: 'flex', flexDirection: 'column' }}>
-          <button 
+          <button
             className="dashboard-back-button borderless" 
-            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '20px', alignSelf: 'flex-start' }} 
+            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 0, marginBottom: '12px', alignSelf: 'flex-start' }}
             onClick={() => onNavigate && onNavigate('home')}
           >
             ← Back to Home
           </button>
           <AuthModeSwitch activeMode="login" onNavigate={onNavigate} />
           <div className="login-header">
-            <img src="/hero.png" alt="PrimeSmsHub" className="login-logo" />
             <h1>Welcome Back 👋</h1>
             <p>Login to your PrimeSmsHub account</p>
           </div>
