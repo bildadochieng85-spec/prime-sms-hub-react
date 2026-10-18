@@ -3804,6 +3804,10 @@ p { line-height: 1.6; }
   margin-bottom: 38px;
 }
 
+.dashboard-analytics-section-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .dashboard-page .dashboard-info-banner.dashboard-analytics-card {
   min-width: 0;
   min-height: 270px;
