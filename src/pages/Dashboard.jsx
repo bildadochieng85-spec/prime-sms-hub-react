@@ -1484,12 +1484,16 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     });
     
     const maxSpend = Math.max(...dailySpendings.map(d => d.spend), 0.1);
+    const filteredServices = serviceCatalog.filter(service =>
+      service.name.toLowerCase().includes(serviceSearch.toLowerCase())
+    );
 
     return (
     <>
       <div className="dashboard-welcome-card">
         <div className="dashboard-welcome-content">
-          <h1>Welcome back, <span className="user-name">{userData.fullName}</span>! 👋</h1>
+          <span className="dashboard-eyebrow">YOUR PRIME SMS HUB</span>
+          <h1>Welcome back, <span className="user-name">{userData.fullName}</span></h1>
           <p>Get your virtual numbers with instant SMS delivery.</p>
         </div>
         <div
@@ -1503,13 +1507,18 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           <div className="dashboard-wallet-balance">
             <span className="label">Available Funds</span>
             <span className="amount">{formatBalance(userData.wallet || 0)}</span>
+            <span className="dashboard-wallet-hint">Add funds to your wallet <span aria-hidden="true">→</span></span>
           </div>
         </div>
       </div>
 
       <div className="dashboard-country-selection">
         <div className="dashboard-section-header">
-          <h2 style={{ margin: 0 }}>Step 1: Choose a Service</h2>
+          <div className="dashboard-section-heading">
+            <span className="dashboard-eyebrow">GET STARTED</span>
+            <h2>Choose a service</h2>
+            <p>Select a service first, then pick a country to see live pricing.</p>
+          </div>
           <div className="dashboard-search-bar">
              <input
                 type="text"
@@ -1525,16 +1534,20 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
         {serviceCatalog.length === 0 ? (
           <div className="dashboard-loading">Loading services...</div>
         ) : (
-          <div className="smart-grid-container">
-            {serviceCatalog
-              .filter(service =>
-                service.name.toLowerCase().includes(serviceSearch.toLowerCase())
-              )
-              .slice(0, 24)
-              .map(service => (
+          <>
+            <div className="dashboard-service-grid">
+              {filteredServices.length > 0 ? filteredServices.slice(0, 24).map(service => (
                 <div
                   key={service.id}
                   className={`smart-card ${selectedService?.id === service.id ? 'active' : ''}`}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      event.currentTarget.click();
+                    }
+                  }}
                   onClick={() => {
                     setSelectedService(service);
                     setSelectedCountry('');
@@ -1543,19 +1556,25 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                     setCurrentPage('service-selection');
                   }}
                 >
-                  <span className="smart-service-icon">{getServiceLogo(service.id)}</span>
+                  <span className="smart-service-icon">{getServiceLogo(service.id, '52px')}</span>
                   <span className="smart-name">{service.name}</span>
-                  <span className="smart-subtext">Choose country next</span>
+                  <span className="smart-subtext">Choose country <span aria-hidden="true">→</span></span>
                 </div>
-              ))}
-          </div>
+              )) : (
+                <div className="dashboard-empty-services">No services match “{serviceSearch}”. Try another search.</div>
+              )}
+            </div>
+            {filteredServices.length > 24 && (
+              <p className="dashboard-service-count">Showing 24 of {filteredServices.length} services. Search to find another.</p>
+            )}
+          </>
         )}
       </div>
 
-      <div className="dashboard-analytics-section" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '30px', marginBottom: '60px' }}>
-        <div className="dashboard-info-banner glass" style={{ margin: 0, height: '100%' }}>
+      <div className="dashboard-analytics-section">
+        <div className="dashboard-info-banner glass dashboard-analytics-card">
           <div className="info-content">
-            <h3 style={{ fontSize: '20px', marginBottom: '40px', color: 'var(--text-main)' }}>📈 Weekly Spend Activity</h3>
+            <h3 className="dashboard-analytics-title">Weekly spend activity</h3>
             <div className="usage-chart-container">
               {dailySpendings.map((dayData, idx) => {
                 const heightPercentage = Math.max((dayData.spend / maxSpend) * 100, 5);
@@ -1573,11 +1592,11 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           </div>
         </div>
 
-        <div className="dashboard-info-banner glass" style={{ margin: 0, height: '100%', padding: '30px' }}>
+        <div className="dashboard-info-banner glass dashboard-analytics-card">
           <div className="info-content">
-            <h3 style={{ fontSize: '20px', marginBottom: '20px', color: 'var(--text-main)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>📝 Recent Transactions</span>
-              <span style={{ fontSize: '13px', cursor: 'pointer', color: 'var(--accent-primary)' }} onClick={() => setCurrentPage('transactions')}>View All</span>
+            <h3 className="dashboard-analytics-title">
+              <span>Recent transactions</span>
+              <button type="button" className="dashboard-view-all" onClick={() => setCurrentPage('transactions')}>View all</button>
             </h3>
             <div className="recent-activity-table-wrapper">
               <table className="recent-activity-table">
@@ -1608,7 +1627,10 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       </div>
 
       <div className="dashboard-recent-activity">
-        <h2 style={{ marginBottom: '25px' }}>📊 Account Overview</h2>
+        <div className="dashboard-section-heading dashboard-overview-heading">
+          <span className="dashboard-eyebrow">AT A GLANCE</span>
+          <h2>Account overview</h2>
+        </div>
         <div className="dashboard-activity-cards">
           <div className="dashboard-activity-card">
             <h3>💰 Wallet Balance</h3>
@@ -1649,7 +1671,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       </button>
       
       <div className="dashboard-selected-country-header">
-        <span className="dashboard-selected-service-logo">{getServiceLogo(selectedService?.id || '')}</span>
+        <span className="dashboard-selected-service-logo">{getServiceLogo(selectedService?.id || '', '34px')}</span>
         <div>
           <span className="dashboard-selection-step">STEP 1 · SERVICE</span>
           <h2>{selectedService?.name || 'Choose a service'}</h2>
