@@ -43,20 +43,63 @@ const reassurancePoints = [
 const steps = [
   {
     number: '01',
+    icon: 'search',
+    eyebrow: 'PICK YOUR SERVICE',
     title: 'Choose a service',
-    description: 'Pick the app you want to verify and browse available numbers.',
+    description: 'Select the app you want to verify, then browse available countries.',
   },
   {
     number: '02',
-    title: 'Get your number',
-    description: 'Select a country and use your temporary number to sign up.',
+    icon: 'phone',
+    eyebrow: 'GET A PRIVATE NUMBER',
+    title: 'Choose your number',
+    description: 'Pick an available virtual number and use it for your verification.',
   },
   {
     number: '03',
+    icon: 'message',
+    eyebrow: 'CHECK YOUR INBOX',
     title: 'Receive your code',
-    description: 'Your SMS appears in your inbox as soon as it is delivered.',
+    description: 'When the SMS arrives, find your verification code in your inbox.',
   },
 ];
+
+function StepIcon({ name }) {
+  const paths = {
+    search: (
+      <>
+        <circle cx="10.8" cy="10.8" r="6.8" />
+        <path d="m16 16 4 4M8 10.8h5.6M10.8 8v5.6" />
+      </>
+    ),
+    phone: (
+      <>
+        <rect x="6.5" y="2.5" width="11" height="19" rx="2" />
+        <path d="M10 5.5h4M11 18.5h2" />
+      </>
+    ),
+    message: (
+      <>
+        <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H5l1.7-3.2A7.5 7.5 0 1 1 20 11.5Z" />
+        <path d="M8.5 11.5h.01M12.5 11.5h.01M16.5 11.5h.01" />
+      </>
+    ),
+  };
+
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {paths[name]}
+    </svg>
+  );
+}
 
 function FeatureIcon({ name }) {
   const paths = {
@@ -289,26 +332,47 @@ export default function Home({ onNavigate, theme, setTheme }) {
         <section className="home-how-it-works home-section">
           <div className="home-shell home-process-layout">
             <div className="home-process-heading">
-              <span className="home-section-kicker">THREE SIMPLE STEPS</span>
-              <h2>From signup to SMS in moments.</h2>
+              <span className="home-section-kicker">HOW IT WORKS</span>
+              <h2>Three steps.<br />One less thing to worry about.</h2>
               <p>
-                No complicated setup. Choose a number, use it for verification, and find
-                your code in your inbox.
+                Skip the complicated setup. Choose what you need, use a virtual number,
+                and check your inbox for the code.
               </p>
-              <button className="home-text-link" onClick={handleGetStarted}>
-                Create your account <span aria-hidden="true">→</span>
+              <button className="home-button home-process-button" onClick={handleGetStarted}>
+                Get started for free <span aria-hidden="true">→</span>
               </button>
+              <div className="home-process-assurance">
+                <span aria-hidden="true">✓</span>
+                No app download required
+              </div>
             </div>
-            <div className="home-steps">
-              {steps.map((step) => (
-                <article className="home-step" key={step.number}>
-                  <span className="home-step-number">{step.number}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
-                  </div>
-                </article>
-              ))}
+            <div className="home-process-panel">
+              <div className="home-process-panel-header">
+                <div>
+                  <span className="home-inbox-label">YOUR VERIFICATION FLOW</span>
+                  <h3>Simple from start to finish</h3>
+                </div>
+                <span className="home-process-count">3 steps</span>
+              </div>
+              <div className="home-steps">
+                {steps.map((step) => (
+                  <article className="home-step" key={step.number}>
+                    <div className="home-step-rail">
+                      <span className="home-step-icon">
+                        <StepIcon name={step.icon} />
+                      </span>
+                      {step.number !== '03' && <span className="home-step-connector" />}
+                    </div>
+                    <div className="home-step-content">
+                      <span className="home-step-eyebrow">
+                        STEP {step.number} <span aria-hidden="true">·</span> {step.eyebrow}
+                      </span>
+                      <h4>{step.title}</h4>
+                      <p>{step.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
