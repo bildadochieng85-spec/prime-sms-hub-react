@@ -15,9 +15,7 @@ import './Dashboard.css';
 import { useModal } from '../context/ModalContext';
 
 // API Keys from environment variables
-const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
 const BACKEND_URL = API_BASE_URL;
-const APP_NAME = import.meta.env.VITE_APP_NAME || 'PrimeSmsHub';
 
 // Exchange rate (1 KES = 0.0078 USD) - Now dynamic from backend
 let KES_TO_USD_RATE = 0.0078;
@@ -75,11 +73,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [checkingSms, setCheckingSms] = useState(false);
   
-  // Telegram states
-  const [telegramLinked, setTelegramLinked] = useState(false);
-  const [telegramCode, setTelegramCode] = useState('');
-  const [showTelegramModal, setShowTelegramModal] = useState(false);
-  const [telegramLoading, setTelegramLoading] = useState(false);
+  // API key states
   const [keyStatus, setKeyStatus] = useState(null);
   const [keyLoading, setKeyLoading] = useState(false);
   const [keyError, setKeyError] = useState(null);
@@ -383,8 +377,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       setError('Could not load services. Please refresh and try again.');
       console.error('Could not load dashboard services:', loadError);
     });
-    checkTelegramLink(activeUser);
-    
     // Cleanup listeners
     return () => {
       console.log("🔴 Cleaning up listeners");
@@ -543,26 +535,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       }
     })();
   }, [user]);
-
-  const checkTelegramLink = async (user) => {
-    try {
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists() && userSnap.data().telegramId) {
-        setTelegramLinked(true);
-      }
-    } catch (error) {
-      console.warn('Could not check Telegram link:', error);
-    }
-  };
-
-  const notifyBackendTelegramLinked = async (userId) => {
-    try {
-      await axios.post(`${BACKEND_URL}/api/telegram/notify/${userId}`);
-    } catch (err) {
-      console.warn('Could not notify backend about Telegram link:', err);
-    }
-  };
 
   const fetchKeyStatus = async () => {
     setKeyLoading(true);
@@ -1066,52 +1038,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     setSelectedProduct(numberId); // numberId here corresponds to product name in Dashboard.jsx logic
   };
 
-  // ==================== TELEGRAM FUNCTIONS ====================
-  const createTelegramLink = async (code, userId) => {
-    try {
-      const linkRef = doc(db, 'telegramLinks', code);
-      await setDoc(linkRef, {
-        userId: userId,
-        createdAt: serverTimestamp(),
-        expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-        used: false
-      });
-    } catch (error) {
-      console.error('Error creating telegram link:', error);
-    }
-  };
-
-  const handleLinkTelegram = async () => {
-    const code = Math.random().toString(36).substring(2, 10).toUpperCase();
-    setTelegramCode(code);
-    setShowTelegramModal(true);
-    const uid = currentUser?.uid || user?.uid;
-    if (uid) await createTelegramLink(code, uid);
-  };
-
-  const verifyTelegramConnection = async () => {
-    setTelegramLoading(true);
-    
-      setTimeout(async () => {
-        setTelegramLinked(true);
-        setShowTelegramModal(false);
-        setTelegramLoading(false);
-        showToast('Telegram account linked successfully!');
-        
-        try {
-          const uid2 = currentUser?.uid || user?.uid;
-          if (uid2) {
-            await updateDoc(doc(db, 'users', uid2), {
-              telegramLinked: true,
-              telegramLinkedAt: serverTimestamp()
-            });
-          }
-        } catch (error) {
-          console.warn('Could not update telegram status');
-        }
-      }, 1500);
-  };
-
   // ==================== PAYSTACK HANDLER ====================
   const handlePaystackPayment = () => {
     if (!amount || parseFloat(amount) < 1) {
@@ -1608,13 +1534,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             <p className="stat">{activeNumbers.length}</p>
             <small style={{ color: '#6366f1', fontWeight: 600 }}>Currently Active</small>
           </div>
-          <div className="dashboard-activity-card">
-            <h3>🤖 Telegram Bot</h3>
-            <p className="stat">{telegramLinked ? 'LINKED' : 'OFFLINE'}</p>
-            <small style={{ color: telegramLinked ? '#22c55e' : '#f43f5e', fontWeight: 600 }}>
-              {telegramLinked ? 'Real-time Alerts ON' : 'Notifications Offline'}
-            </small>
-          </div>
         </div>
       </div>
     </>
@@ -1988,17 +1907,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           </ul>
         </nav>
 
-        <div className="dashboard-sidebar-telegram">
-          {telegramLinked ? (
-            <div className="dashboard-telegram-connected">
-              <span>✅</span> Bot Connected
-            </div>
-          ) : (
-            <button className="dashboard-telegram-link-btn" onClick={handleLinkTelegram}>
-              <span>🤖</span> Connect Bot
-            </button>
-          )}
-        </div>
       </aside>
 
       {/* Mobile Overlay */}
@@ -2367,14 +2275,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                   <small>Response within 24 hours</small>
                 </div>
               </a>
-              <a href={`https:t.me/SMSHubPrimeBot`} target="_blank" rel="noreferrer" className="support-channel-card support-channel-telegram">
-                <span className="support-channel-icon">✈️</span>
-                <div>
-                  <strong>Telegram Bot</strong>
-                  <span>@{APP_NAME}Bot</span>
-                  <small>Instant SMS alerts & help</small>
-                </div>
-              </a>
               <div className="support-channel-card support-channel-docs">
                 <span className="support-channel-icon">📖</span>
                 <div>
@@ -2382,37 +2282,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                   <span>Guides & How-tos</span>
                   <small>Step-by-step instructions</small>
                 </div>
-              </div>
-            </div>
-
-            {/* Telegram Bot Section */}
-            <div className="support-telegram-section">
-              <div className="support-telegram-info">
-                <h3>🤖 Telegram Bot — Real-time Notifications</h3>
-                <p>Link your Telegram account to receive instant SMS notifications directly in Telegram the moment a message arrives on your virtual number.</p>
-                <ul className="support-telegram-features">
-                  <li>⚡ Instant SMS notifications</li>
-                  <li>🔔 Purchase confirmations</li>
-                  <li>💳 Wallet top-up alerts</li>
-                </ul>
-              </div>
-              <div className="support-telegram-action">
-                {telegramLinked ? (
-                  <div className="support-telegram-connected">
-                    <span>✅</span>
-                    <div>
-                      <strong>Telegram Connected</strong>
-                      <p>You'll receive instant notifications for all activity.</p>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <p>Not connected yet. Link your account to start receiving real-time alerts.</p>
-                    <button className="support-connect-btn" onClick={handleLinkTelegram}>
-                      🤖 Connect Telegram Bot
-                    </button>
-                  </>
-                )}
               </div>
             </div>
 
@@ -2458,34 +2327,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       </main>
 
       {/* Fund Wallet page handled by renderFundContent when selected */}
-
-      {/* Telegram Modal */}
-      {showTelegramModal && (
-        <div className="dashboard-modal">
-          <div className="dashboard-modal-content">
-            <h3>🔗 Connect Telegram</h3>
-            <p>1. Open Telegram and search for <strong>@{APP_NAME}Bot</strong></p>
-            <p>2. Start a chat and send this code:</p>
-            <div className="dashboard-code-display">{telegramCode}</div>
-            <p>3. Click verify after sending</p>
-            <div className="dashboard-modal-actions">
-              <button 
-                className="dashboard-btn-primary" 
-                onClick={verifyTelegramConnection}
-                disabled={telegramLoading}
-              >
-                {telegramLoading ? 'Verifying...' : 'Verify Connection'}
-              </button>
-              <button 
-                className="dashboard-btn-secondary" 
-                onClick={() => setShowTelegramModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* CSS Animation */}
       <style>{`
