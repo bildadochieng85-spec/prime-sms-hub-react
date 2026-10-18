@@ -5,6 +5,7 @@ import { auth, db } from '../firebasejs/config';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import AuthModeSwitch from '../components/AuthModeSwitch';
+import '../styles/AuthTheme.css';
 import './Signup.css';
 
 export default function Signup({ onNavigate }) {

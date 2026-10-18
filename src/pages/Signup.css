@@ -114,7 +114,7 @@
   outline: none;
   border-color: var(--accent-primary);
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+  box-shadow: 0 0 15px rgba(32, 199, 183, 0.14);
 }
 
 .form-group input:disabled {
