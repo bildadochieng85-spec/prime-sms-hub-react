@@ -1556,7 +1556,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                     setCurrentPage('service-selection');
                   }}
                 >
-                  <span className="smart-service-icon">{getServiceLogo(service.id)}</span>
+                  <span className="smart-service-icon">{getServiceLogo(service.id, '40px')}</span>
                   <span className="smart-name">{service.name}</span>
                   <span className="smart-subtext">Choose country <span aria-hidden="true">→</span></span>
                 </div>
@@ -1671,7 +1671,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       </button>
       
       <div className="dashboard-selected-country-header">
-        <span className="dashboard-selected-service-logo">{getServiceLogo(selectedService?.id || '')}</span>
+        <span className="dashboard-selected-service-logo">{getServiceLogo(selectedService?.id || '', '34px')}</span>
         <div>
           <span className="dashboard-selection-step">STEP 1 · SERVICE</span>
           <h2>{selectedService?.name || 'Choose a service'}</h2>

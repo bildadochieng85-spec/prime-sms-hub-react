@@ -6,6 +6,8 @@ import React from 'react';
  */
 export const getServiceLogo = (serviceId, size = '20px') => {
   const sId = (serviceId || '').toLowerCase();
+  const fallbackLabel = sId.replace(/[^a-z0-9]/g, '').slice(0, 2).toUpperCase() || '?';
+  const fallbackFontSize = `${Math.max(11, Math.round((Number.parseInt(size, 10) || 20) * 0.42))}px`;
   const map = {
     whatsapp: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg',
     telegram: 'https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg',
@@ -21,22 +23,21 @@ export const getServiceLogo = (serviceId, size = '20px') => {
     tinder: 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Tinder_logo_1.svg',
   };
 
-  if (map[sId]) {
-    return (
-      <img
-        src={map[sId]}
-        alt={sId}
-        style={{ width: size, height: size, objectFit: 'contain' }}
-      />
-    );
-  }
-
   return (
-    <img
-      src={`https://logo.clearbit.com/${sId}.com`}
-      alt={sId}
-      style={{ width: size, height: size, objectFit: 'contain', borderRadius: '4px' }}
-      onError={(e) => { e.target.style.display = 'none'; }}
-    />
+    <>
+      <img
+        src={map[sId] || `https://logo.clearbit.com/${sId}.com`}
+        alt={sId}
+        style={{ width: size, height: size, objectFit: 'contain', borderRadius: '4px' }}
+        onError={(event) => {
+          event.currentTarget.style.display = 'none';
+          const fallback = event.currentTarget.nextElementSibling;
+          if (fallback) fallback.hidden = false;
+        }}
+      />
+      <span className="service-logo-fallback" style={{ fontSize: fallbackFontSize }} hidden aria-hidden="true">
+        {fallbackLabel}
+      </span>
+    </>
   );
 };
