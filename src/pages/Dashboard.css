@@ -3532,12 +3532,36 @@ p { line-height: 1.6; }
 }
 
 .dashboard-page .dashboard-welcome-card {
+  isolation: isolate;
   min-height: 214px;
   margin-bottom: 34px;
   padding: clamp(28px, 4vw, 48px);
   gap: 28px;
   border-radius: 26px;
   box-shadow: 0 20px 60px var(--dash-shadow);
+}
+
+.dashboard-page .dashboard-welcome-card::before {
+  top: -155px;
+  right: 20%;
+  width: 370px;
+  height: 370px;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.dashboard-page .dashboard-welcome-card::after {
+  position: absolute;
+  z-index: -1;
+  right: -55px;
+  bottom: -100px;
+  width: 340px;
+  height: 240px;
+  border: 1px solid rgba(112, 226, 213, 0.08);
+  border-radius: 50%;
+  content: '';
+  transform: rotate(-20deg);
+  pointer-events: none;
 }
 
 .dashboard-page .dashboard-welcome-content {
@@ -3550,6 +3574,11 @@ p { line-height: 1.6; }
   margin: 8px 0 10px;
   font-size: clamp(30px, 3.2vw, 42px);
   letter-spacing: -1.4px;
+}
+
+.dashboard-page .dashboard-welcome-content .user-name {
+  color: var(--accent-primary);
+  text-shadow: 0 8px 28px rgba(32, 199, 183, 0.2);
 }
 
 .dashboard-page .dashboard-welcome-content p {
@@ -3569,8 +3598,17 @@ p { line-height: 1.6; }
   z-index: 1;
   min-width: 225px;
   padding: 22px 26px;
+  border-color: rgba(112, 226, 213, 0.2);
+  background:
+    linear-gradient(145deg, rgba(32, 199, 183, 0.09), transparent 75%),
+    var(--dash-card);
   border-radius: 18px;
   text-align: left;
+}
+
+.dashboard-page .dashboard-wallet-info:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
 }
 
 .dashboard-wallet-info .label {
@@ -3588,9 +3626,20 @@ p { line-height: 1.6; }
 .dashboard-wallet-hint {
   display: block;
   margin-top: 7px;
-  color: var(--text-muted);
+  color: var(--text-dim);
   font-size: 11px;
   font-weight: 600;
+}
+
+.dashboard-wallet-hint span {
+  display: inline-block;
+  margin-left: 3px;
+  color: var(--accent-primary);
+  transition: transform 180ms ease;
+}
+
+.dashboard-page .dashboard-wallet-info:hover .dashboard-wallet-hint span {
+  transform: translateX(4px);
 }
 
 .dashboard-country-selection,
@@ -3842,8 +3891,17 @@ p { line-height: 1.6; }
     text-align: left;
   }
 
+  .dashboard-page .dashboard-welcome-card::after {
+    right: -155px;
+    bottom: 80px;
+  }
+
   .dashboard-page .dashboard-welcome-content h1 {
-    font-size: 28px;
+    max-width: 100%;
+    font-size: clamp(25px, 7vw, 32px);
+    line-height: 1.16;
+    letter-spacing: -1px;
+    overflow-wrap: anywhere;
   }
 
   .dashboard-page .dashboard-welcome-content p {
