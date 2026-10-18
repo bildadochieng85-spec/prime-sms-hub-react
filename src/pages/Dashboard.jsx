@@ -1522,17 +1522,17 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           <div className="dashboard-activity-card">
             <h3>💰 Wallet Balance</h3>
             <p className="stat">{formatBalance(userData.wallet || 0)}</p>
-            <small style={{ color: '#22c55e', fontWeight: 600 }}>Ready to Spend</small>
+            <small className="dashboard-metric-positive">Ready to Spend</small>
           </div>
           <div className="dashboard-activity-card">
             <h3>💸 Total Spent</h3>
             <p className="stat">{formatBalance(totalSpent)}</p>
-            <small style={{ color: '#0ea5e9', fontWeight: 600 }}>Lifetime Spend</small>
+            <small className="dashboard-metric-neutral">Lifetime Spend</small>
           </div>
           <div className="dashboard-activity-card">
             <h3>🔢 Active Orders</h3>
             <p className="stat">{activeNumbers.length}</p>
-            <small style={{ color: '#6366f1', fontWeight: 600 }}>Currently Active</small>
+            <small className="dashboard-metric-positive">Currently Active</small>
           </div>
         </div>
       </div>
