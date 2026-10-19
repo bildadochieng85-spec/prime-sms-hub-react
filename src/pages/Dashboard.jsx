@@ -80,7 +80,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
   // Payment states
   const [amount, setAmount] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [currency, setCurrency] = useState('NGN');
+  const [currency, setCurrency] = useState('KES');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [pollingOrderId, setPollingOrderId] = useState(null);
   const [authToken, setAuthToken] = useState(null);
@@ -131,21 +131,18 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       />
     );
   };
-  const getCurrencySymbol = () => currency === 'NGN' ? '₦' : '$';
-
   const formatBalance = (amountInUSD) => {
-    if (currency === 'NGN') {
-      // 1 NGN = NGN_TO_USD_RATE USD => amountInNGN = amountInUSD / NGN_TO_USD_RATE
-      const inNGN = amountInUSD / NGN_TO_USD_RATE;
-      return `₦${inNGN.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    if (currency === 'KES') {
+      const inKES = amountInUSD / KES_TO_USD_RATE;
+      return `KES ${inKES.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
     return `$${amountInUSD.toFixed(2)}`;
   };
 
   const formatPrice = (priceInUSD) => {
-    if (currency === 'NGN') {
-       const inNGN = priceInUSD / NGN_TO_USD_RATE;
-       return `₦${inNGN.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+    if (currency === 'KES') {
+       const inKES = priceInUSD / KES_TO_USD_RATE;
+       return `KES ${inKES.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
     }
     return `$${priceInUSD.toFixed(2)}`;
   };
@@ -952,8 +949,10 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
   // ==================== PAYSTACK HANDLER ====================
   const handlePaystackPayment = () => {
-    if (!amount || parseFloat(amount) < 1) {
-      showToast('Please enter a valid amount (minimum 1)', 'error');
+    const paymentAmount = Number(amount);
+    const minimumDepositKES = Math.ceil(1 / KES_TO_USD_RATE);
+    if (!Number.isFinite(paymentAmount) || paymentAmount < minimumDepositKES) {
+      showToast(`Please enter at least KES ${minimumDepositKES.toLocaleString()} (about $1.00).`, 'error');
       return;
     }
     if (!phoneNumber) {
@@ -985,20 +984,20 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
     try {
       // Log payment details for debugging (remove in production)
-      const amountInKobo = Math.round(parseFloat(amount) * 100);
+      const amountInSubunits = Math.round(parseFloat(amount) * 100);
       const currencyLower = currency.toLowerCase();
       console.log('🔵 Paystack Payment Debug:', {
         key: paystackKey?.slice(0, 20) + '...',
         email: currentUser.email,
         amount: parseFloat(amount),
-        amountInKobo,
+        amountInSubunits,
         currency: currencyLower
       });
 
       const handler = window.PaystackPop.setup({
         key: paystackKey,
         email: currentUser.email,
-        amount: amountInKobo,
+        amount: amountInSubunits,
         currency: currencyLower,
         ref: 'PSH-' + Date.now() + '-' + Math.floor(Math.random() * 1000000),
         metadata: {
@@ -1473,7 +1472,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     const rates = { 
       USD: 1, 
       KES: KES_TO_USD_RATE, 
-      NGN: NGN_TO_USD_RATE, 
       GHS: 0.063, 
       ZAR: 0.054, 
       EGP: 0.032 
@@ -1512,7 +1510,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                min="1"
+                min={Math.ceil(1 / KES_TO_USD_RATE)}
                 step="0.01"
                 disabled={paymentLoading}
               />
@@ -1522,7 +1520,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                 onChange={(e) => setCurrency(e.target.value)}
                 disabled={paymentLoading}
               >
-                <option value="NGN">🇳🇬 NGN</option>
+                <option value="KES">🇰🇪 KES</option>
               </select>
             </div>
           </div>
@@ -1532,7 +1530,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             <input
               type="tel"
               className="fund-input"
-              placeholder="+1 234 567 890"
+              placeholder="+254 712 345 678"
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={paymentLoading}
@@ -1577,8 +1575,8 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             <li>
               <span className="fund-benefit-icon">🌍</span>
               <div>
-                <strong>6 Currencies Supported</strong>
-                <span>NGN, USD, GHS, ZAR, EGP</span>
+                <strong>Kenyan Shillings</strong>
+                <span>Pay securely in KES</span>
               </div>
             </li>
             <li>
@@ -1605,7 +1603,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           </ul>
 
           <div className="fund-min-notice">
-            Minimum deposit: <strong>$1.00</strong>
+            Minimum deposit: <strong>KES {Math.ceil(1 / KES_TO_USD_RATE).toLocaleString()} (about $1.00)</strong>
           </div>
         </div>
       </div>
@@ -2150,7 +2148,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                   },
                   {
                     q: 'What currencies can I use to fund my wallet?',
-                    a: 'We support NGN, USD, GHS, ZAR, and EGP. All amounts are converted to Naira and credited to your wallet instantly after payment.'
+                    a: 'You can fund your wallet in Kenyan Shillings (KES). Your deposit is converted to USD and credited to your wallet after payment confirmation.'
                   },
                   {
                     q: 'My number isn\'t receiving SMS — what do I do?',
