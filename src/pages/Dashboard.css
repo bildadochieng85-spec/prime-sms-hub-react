@@ -45,6 +45,17 @@
   overflow-x: hidden;
 }
 
+html:has(.dashboard-page) {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html:has(.dashboard-page)::-webkit-scrollbar,
+.dashboard-page::-webkit-scrollbar,
+.dashboard-page *::-webkit-scrollbar {
+  display: none;
+}
+
 :root.light-mode .dashboard-page {
   --dash-bg: #f9f9f9;
   --dash-sidebar: rgba(255, 255, 255, 0.95);
@@ -247,6 +258,8 @@
   flex: 1;
   padding: 22px 14px 14px;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .dashboard-sidebar nav::before {
