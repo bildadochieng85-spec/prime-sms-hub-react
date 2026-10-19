@@ -207,53 +207,6 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   transition: var(--transit);
 }
 
-.dashboard-sidebar-header {
-  position: relative;
-  padding: 26px 24px 23px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.dashboard-sidebar-header h3 {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.7px;
-  background: linear-gradient(110deg, #70e2d5, #20c7b7);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.dashboard-sidebar-header h3::before {
-  content: "✦";
-  width: 31px;
-  height: 31px;
-  display: grid;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid rgba(112, 226, 213, 0.28);
-  border-radius: 10px;
-  background: linear-gradient(145deg, rgba(32, 199, 183, 0.2), rgba(32, 199, 183, 0.06));
-  color: var(--sidebar-accent-bright);
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  -webkit-text-fill-color: currentColor;
-}
-
-.dashboard-sidebar-header::after {
-  content: "SECURE VERIFICATION";
-  display: block;
-  margin: 7px 0 0 42px;
-  color: rgba(189, 207, 218, 0.58);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.25px;
-}
-
 .dashboard-sidebar nav {
   flex: 1;
   padding: 22px 14px 14px;
@@ -500,16 +453,6 @@ html:has(.dashboard-page)::-webkit-scrollbar,
   border-right-color: rgba(20, 45, 65, 0.1);
 }
 
-:root.light-mode .dashboard-sidebar-header {
-  border-color: rgba(20, 45, 65, 0.1);
-}
-
-:root.light-mode .dashboard-sidebar-header h3::before {
-  border-color: rgba(8, 127, 120, 0.2);
-  background: rgba(32, 199, 183, 0.09);
-}
-
-:root.light-mode .dashboard-sidebar-header::after,
 :root.light-mode .dashboard-sidebar nav::before,
 :root.light-mode .dashboard-sidebar nav ul li.divider::after {
   color: rgba(46, 65, 78, 0.55);
@@ -3390,7 +3333,6 @@ h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; marg
   .hero-title { font-size: 26px; }
   .hero-description { font-size: 16px; margin-bottom: 32px; }
   .btn, button { font-size: 14px !important; padding: 12px 20px !important; }
-  .dashboard-sidebar-header h3 { font-size: 18px; }
   .feature-card h3 { font-size: 18px; }
   .feature-card p { font-size: 14px; }
   .dashboard-activity-card h3 { font-size: 11px; }

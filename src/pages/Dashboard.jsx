@@ -1695,10 +1695,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
       {/* Premium Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="dashboard-sidebar-header">
-          <h3>PRIME<span style={{ color: 'var(--accent-secondary)' }}>HUB</span></h3>
-        </div>
-        
         <nav>
           <ul>
             <li className={currentPage === 'dashboard' ? 'active' : ''}>
