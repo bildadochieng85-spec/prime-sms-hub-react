@@ -2103,7 +2103,8 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             {/* Header */}
             <div className="support-header">
               <div>
-                <h2>Help &amp; Support</h2>
+                <span className="dashboard-eyebrow">WE’RE HERE TO HELP</span>
+                <h1>Help &amp; Support</h1>
                 <p className="support-subtitle">We're here to help you get the most out of PrimeSmsHub.</p>
               </div>
               <div className="support-status-pill">
