@@ -1710,20 +1710,8 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             )}
           </button>
 
-          <button
-            className="fund-pay-btn fund-pay-btn-alt"
-            onClick={handleFlutterwavePayment}
-            disabled={paymentLoading || !amount || !phoneNumber || !flutterwaveKey}
-          >
-            {paymentLoading ? (
-              <><span className="fund-spinner"></span> Processing...</>
-            ) : (
-              <>💸 Pay with Flutterwave</>
-            )}
-          </button>
-
           <div className="fund-secure-note">
-            🔒 Secured by Paystack & Flutterwave · 256-bit SSL Encryption
+            🔒 Secured by Paystack · 256-bit SSL Encryption
           </div>
         </div>
 
