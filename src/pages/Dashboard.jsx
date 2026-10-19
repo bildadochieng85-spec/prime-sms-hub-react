@@ -1711,10 +1711,9 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
           </button>
 
           <button
-            className="fund-pay-btn"
+            className="fund-pay-btn fund-pay-btn-alt"
             onClick={handleFlutterwavePayment}
             disabled={paymentLoading || !amount || !phoneNumber || !flutterwaveKey}
-            style={{ marginTop: '10px', background: '#f5a623', color: '#fff', borderColor: '#f5a623' }}
           >
             {paymentLoading ? (
               <><span className="fund-spinner"></span> Processing...</>
