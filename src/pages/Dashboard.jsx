@@ -35,7 +35,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     phone: ''
   });
   const [paystackKey, setPaystackKey] = useState(import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_live_1360357981b26244290e833fb700ea775063618b');
-  const [flutterwaveKey, setFlutterwaveKey] = useState(import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY || '');
   const [transactions, setTransactions] = useState([]);
   const [activeNumbers, setActiveNumbers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -161,12 +160,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
       script.async = true;
       document.body.appendChild(script);
     }
-    if (!window.FlutterwaveCheckout) {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.flutterwave.com/v3.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
     fetchConfig();
   }, []);
 
@@ -186,16 +179,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
         console.log('⚙️ Paystack key loaded from backend');
       }
 
-      // Fetch Flutterwave Public Key
-      try {
-        const fwKeyResp = await axios.get(`${BACKEND_URL}/flutterwave-public-key`);
-        if (fwKeyResp.data && fwKeyResp.data.publicKey) {
-          setFlutterwaveKey(fwKeyResp.data.publicKey);
-          console.log('⚙️ Flutterwave key loaded from backend');
-        }
-      } catch (fwErr) {
-        console.warn('Could not fetch Flutterwave key:', fwErr.message);
-      }
     } catch (err) {
       console.warn('Could not fetch dynamic config:', err.message);
     }
@@ -951,77 +934,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     setPaymentLoading(false);
   };
 
-  // ==================== FLUTTERWAVE VERIFICATION ====================
-  const verifyFlutterwavePayment = async (txId, amount, currency) => {
-    const uid = currentUser?.uid || user?.uid;
-    setPaymentLoading(true);
-    console.log('🔵 verifyFlutterwavePayment called:', { txId, amount, currency, uid });
-
-    let backendWroteToFirestore = false;
-    try {
-      const resp = await axios.get(`${BACKEND_URL}/flutterwave/verify/${encodeURIComponent(txId)}`);
-      if (resp.data && resp.data.status) {
-        backendWroteToFirestore = true;
-        showToast('Flutterwave payment verified! Wallet has been funded.', 'success');
-        notifyAdminWalletFunded(amount, currency);
-      }
-    } catch (backendErr) {
-      console.warn('⚠️ Flutterwave Backend verify failed — using client fallback:', backendErr.message);
-    }
-
-    if (uid) {
-      try {
-        const dupQuery = query(collection(db, 'transactions'), where('reference', '==', txId));
-        const dupSnap = await getDocs(dupQuery);
-
-        if (dupSnap.empty) {
-          let amountUSD = parseFloat(amount) || 0;
-          const currencyUpper = (currency || 'USD').toUpperCase();
-          if (currencyUpper === 'KES') {
-            amountUSD = Number((amountUSD * KES_TO_USD_RATE).toFixed(2));
-          } else if (currencyUpper === 'NGN') {
-            amountUSD = Number((amountUSD * NGN_TO_USD_RATE).toFixed(2));
-          }
-          amountUSD = Number(amountUSD.toFixed(2));
-
-          if (amountUSD > 0) {
-            const newTxRef = doc(collection(db, 'transactions'));
-            await setDoc(newTxRef, {
-              uid,
-              type: 'credit',
-              amount: amountUSD,
-              originalAmount: parseFloat(amount),
-              originalCurrency: currencyUpper,
-              currency: 'USD',
-              description: 'Funded wallet via Flutterwave',
-              reference: txId,
-              status: 'success',
-              createdAt: serverTimestamp(),
-              clientFallback: true
-            });
-
-            const userRef = doc(db, 'users', uid);
-            const userSnap = await getDoc(userRef);
-            const currentWallet = userSnap.exists() ? (Number(userSnap.data().wallet) || 0) : 0;
-            const newWallet = Number((currentWallet + amountUSD).toFixed(2));
-            await updateDoc(userRef, { wallet: newWallet, lastTransactionAt: serverTimestamp() });
-
-            if (!backendWroteToFirestore) {
-              showToast(`Wallet funded! +$${amountUSD} has been added.`, 'success');
-              notifyAdminWalletFunded(amount, currencyUpper);
-            }
-          }
-        } else {
-          if (!backendWroteToFirestore) showToast('Payment already recorded.', 'success');
-        }
-      } catch (fallbackErr) {
-        if (!backendWroteToFirestore) showToast('Payment succeeded but wallet update failed.', 'error');
-      }
-    }
-    setPaymentLoading(false);
-  };
-
-
   // ==================== SMS CHECK FUNCTION ====================
   const handleCheckSMS = async (numberId, phoneNumber, orderId) => {
     // We now use the SMSDisplay component which handles polling
@@ -1119,68 +1031,6 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
     } catch (error) {
       console.error('Paystack error:', error);
       showToast('Error initializing payment: ' + (error.message || 'Unknown error'), 'error');
-      setPaymentLoading(false);
-    }
-  };
-
-  // ==================== FLUTTERWAVE HANDLER ====================
-  const handleFlutterwavePayment = () => {
-    if (!amount || parseFloat(amount) < 1) {
-      showToast('Please enter a valid amount (minimum 1)', 'error');
-      return;
-    }
-    if (!phoneNumber) {
-      showToast('Please enter your phone number', 'error');
-      return;
-    }
-
-    if (!window.FlutterwaveCheckout) {
-      showToast('Loading Flutterwave...', 'info');
-      const script = document.createElement('script');
-      script.src = 'https://checkout.flutterwave.com/v3.js';
-      script.async = true;
-      script.onload = () => setTimeout(() => handleFlutterwavePayment(), 500);
-      document.body.appendChild(script);
-      return;
-    }
-
-    setPaymentLoading(true);
-    try {
-      const currencyUpper = currency.toUpperCase();
-      
-      window.FlutterwaveCheckout({
-        public_key: flutterwaveKey,
-        tx_ref: 'FW-' + Date.now() + '-' + Math.floor(Math.random() * 1000000),
-        amount: parseFloat(amount),
-        currency: currencyUpper,
-        payment_options: "card, mobilemoneyghana, mobilemoneyuganda, mobilemoneyrwanda, mobilemoneyzambia, mobilemoneytanzania, ussd",
-        customer: {
-          email: currentUser?.email || 'user@example.com',
-          phone_number: phoneNumber,
-          name: currentUser?.displayName || userData.fullName || 'User',
-        },
-        customizations: {
-          title: "Prime SMS Hub",
-          description: "Fund Wallet",
-        },
-        meta: {
-          uid: currentUser?.uid
-        },
-        callback: function (response) {
-          console.log("✅ Flutterwave response:", response);
-          if (response.status === "successful" || response.status === "completed") {
-            verifyFlutterwavePayment(response.tx_ref, parseFloat(amount), currencyUpper);
-          }
-        },
-        onclose: function() {
-          console.log('❌ Flutterwave payment window closed');
-          setPaymentLoading(false);
-          showToast('Payment window closed', 'info');
-        }
-      });
-    } catch (error) {
-      console.error('Flutterwave error:', error);
-      showToast('Error initializing Flutterwave', 'error');
       setPaymentLoading(false);
     }
   };
