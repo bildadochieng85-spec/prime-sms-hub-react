@@ -2050,7 +2050,9 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
 
             {transactions.length === 0 ? (
               <div className="dashboard-empty-state">
-                <p>No transactions yet</p>
+                <span className="tx-empty-icon" aria-hidden="true">↗</span>
+                <h2>No transactions yet</h2>
+                <p>Your wallet activity will appear here after your first deposit or purchase.</p>
                 <button className="dashboard-btn" onClick={() => setCurrentPage('fund-wallet')}>
                   Fund Your Wallet
                 </button>
