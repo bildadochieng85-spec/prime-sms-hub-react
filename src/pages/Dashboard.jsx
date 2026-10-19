@@ -2028,7 +2028,8 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
             {/* Header */}
             <div className="tx-page-header">
               <div>
-                <h2>Transaction History</h2>
+                <span className="dashboard-eyebrow">ACCOUNT ACTIVITY</span>
+                <h1>Transaction History</h1>
                 <p className="tx-subtitle">{transactions.length} total record{transactions.length !== 1 ? 's' : ''}</p>
               </div>
               <div className="tx-summary-chips">
@@ -2038,11 +2039,11 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                 </div>
                 <div className="tx-chip tx-chip-credit">
                   <span>Total In</span>
-                  <strong>+${transactions.filter(t => t.type === 'credit').reduce((s, t) => s + (t.amount || 0), 0).toFixed(2)}</strong>
+                  <strong>+{formatPrice(transactions.filter(t => t.type === 'credit').reduce((s, t) => s + (Number(t.amount) || 0), 0))}</strong>
                 </div>
                 <div className="tx-chip tx-chip-debit">
                   <span>Total Out</span>
-                  <strong>-${transactions.filter(t => t.type === 'debit').reduce((s, t) => s + (t.amount || 0), 0).toFixed(2)}</strong>
+                  <strong>-{formatPrice(transactions.filter(t => t.type === 'debit').reduce((s, t) => s + (Number(t.amount) || 0), 0))}</strong>
                 </div>
               </div>
             </div>
@@ -2068,7 +2069,7 @@ const Dashboard = ({ onNavigate, user, theme, setTheme }) => {
                           {tx.description || (tx.originalAmount ? `${tx.originalAmount} ${tx.originalCurrency}` : tx.type === 'credit' ? 'Wallet Funded' : 'Number Purchase')}
                         </span>
                         <span className={`tx-amount tx-amount-${tx.type || 'credit'}`}>
-                          {tx.type === 'credit' ? '+' : '-'}${typeof tx.amount === 'number' ? tx.amount.toFixed(2) : '0.00'}
+                          {tx.type === 'credit' ? '+' : '-'}{formatPrice(Number(tx.amount) || 0)}
                         </span>
                       </div>
                       <div className="tx-card-bottom">
